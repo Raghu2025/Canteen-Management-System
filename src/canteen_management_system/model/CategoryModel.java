@@ -18,6 +18,7 @@ public class CategoryModel {
     private Date createdDate;
     private boolean status = true;
     private String imageUrl;
+    private boolean hasQuantity = false;
 
     public CategoryModel(int id, String categoryName, String description) {
         this.id = id;
@@ -71,6 +72,14 @@ public class CategoryModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isHasQuantity() {
+        return hasQuantity;
+    }
+
+    public void setHasQuantity(boolean hasQuantity) {
+        this.hasQuantity = hasQuantity;
     }
 
 }
