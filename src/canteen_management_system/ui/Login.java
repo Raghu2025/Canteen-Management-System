@@ -36,10 +36,10 @@ public class Login extends javax.swing.JFrame {
         loginInputWrapper = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         emailInput = new javax.swing.JTextField();
-        passwordInput = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
+        passwordInput = new javax.swing.JPasswordField();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -54,7 +54,6 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("loginFrame");
-        setPreferredSize(new java.awt.Dimension(1280, 700));
 
         loginMainWrapper.setBackground(new java.awt.Color(201, 214, 222));
         loginMainWrapper.setPreferredSize(new java.awt.Dimension(1280, 700));
@@ -80,21 +79,12 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        passwordInput.setBackground(new java.awt.Color(201, 214, 222));
-        passwordInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        passwordInput.setForeground(new java.awt.Color(0, 0, 0));
-        passwordInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(201, 214, 222), 2, true));
-        passwordInput.setPreferredSize(new java.awt.Dimension(64, 30));
-        passwordInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordInputActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Email");
 
         jLabel4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password");
 
         loginButton.setBackground(new java.awt.Color(51, 124, 165));
@@ -108,23 +98,33 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        passwordInput.setBackground(new java.awt.Color(201, 214, 222));
+        passwordInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        passwordInput.setForeground(new java.awt.Color(0, 0, 0));
+        passwordInput.setPreferredSize(new java.awt.Dimension(90, 30));
+        passwordInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordInputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout loginInputWrapperLayout = new javax.swing.GroupLayout(loginInputWrapper);
         loginInputWrapper.setLayout(loginInputWrapperLayout);
         loginInputWrapperLayout.setHorizontalGroup(
             loginInputWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginInputWrapperLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(141, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(141, 141, 141))
             .addGroup(loginInputWrapperLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(loginInputWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailInput, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(loginInputWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(emailInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(passwordInput, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         loginInputWrapperLayout.setVerticalGroup(
             loginInputWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,9 +137,9 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(emailInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addGap(47, 47, 47)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(81, Short.MAX_VALUE))
         );
@@ -164,7 +164,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(54, 54, 54)
                 .addComponent(loginInputWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -187,14 +187,10 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailInputActionPerformed
 
-    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordInputActionPerformed
-
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-       
+
         String email = this.emailInput.getText();
-        String password = this.passwordInput.getText();
+        String password = new String(this.passwordInput.getPassword());
         String message = null;
         
         if(email == null || email.isBlank()){
@@ -210,6 +206,10 @@ public class Login extends javax.swing.JFrame {
         "Input Warning",
         JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,6 +246,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginInputWrapper;
     private javax.swing.JPanel loginMainWrapper;
-    private javax.swing.JTextField passwordInput;
+    private javax.swing.JPasswordField passwordInput;
     // End of variables declaration//GEN-END:variables
 }
