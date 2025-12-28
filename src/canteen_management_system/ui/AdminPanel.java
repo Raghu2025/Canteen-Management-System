@@ -121,7 +121,7 @@ public class AdminPanel extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        JDialog addCategory = new JDialog(this, "Add Category", true);
        
-       JPanel categoryPanel = new addCategoryForm();
+       JPanel categoryPanel = new AddCategoryForm();
        
        addCategory.setContentPane(categoryPanel);
        addCategory.pack();

@@ -5,6 +5,7 @@
 package canteen_management_system.controller;
 
 import canteen_management_system.model.CategoryModel;
+import canteen_management_system.systemData.CategoryData;
 import java.util.LinkedList;
 
 /**
@@ -12,13 +13,19 @@ import java.util.LinkedList;
  * @author User
  */
 public class CategoryController {
-    private LinkedList<CategoryModel> categoryList = new LinkedList<CategoryModel>();
+    
     
     public CategoryController() {
     }
     
+    public String addController(String name, String description) {
+        int newId = CategoryData.getAllCategory().size() + 1;
+        CategoryData.addCategory(new CategoryModel(newId,name, description));
+        return "";
+    }
+    
     public LinkedList<CategoryModel> getAllCategoryList(){
-        return categoryList;
+        return CategoryData.getAllCategory();
     }
     
 //    public String[][] getTableValue(){

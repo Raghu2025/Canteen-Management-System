@@ -4,16 +4,19 @@
  */
 package canteen_management_system.ui;
 
+import canteen_management_system.controller.CategoryController;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
-public class addCategoryForm extends javax.swing.JPanel {
-
+public class AddCategoryForm extends javax.swing.JPanel {
+    CategoryController categoryController = new CategoryController();
     /**
      * Creates new form addCategoryForm
      */
-    public addCategoryForm() {
+    public AddCategoryForm() {
         initComponents();
     }
 
@@ -31,12 +34,13 @@ public class addCategoryForm extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        categoryName = new javax.swing.JTextField();
+        categoryInput = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        descriptionInput = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        descriptionInput = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
-        loginButton = new javax.swing.JButton();
+        addcategoryButton = new javax.swing.JButton();
 
         jPanel3.setBackground(new java.awt.Color(255, 51, 51));
 
@@ -66,52 +70,52 @@ public class addCategoryForm extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 70));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Category Name");
         jPanel2.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-        categoryName.setBackground(new java.awt.Color(201, 214, 222));
-        categoryName.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        categoryName.setForeground(new java.awt.Color(0, 0, 0));
-        categoryName.setPreferredSize(new java.awt.Dimension(71, 30));
-        categoryName.addActionListener(new java.awt.event.ActionListener() {
+        categoryInput.setBackground(new java.awt.Color(201, 214, 222));
+        categoryInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        categoryInput.setForeground(new java.awt.Color(0, 0, 0));
+        categoryInput.setPreferredSize(new java.awt.Dimension(71, 30));
+        categoryInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryNameActionPerformed(evt);
+                categoryInputActionPerformed(evt);
             }
         });
-        jPanel2.add(categoryName, java.awt.BorderLayout.PAGE_END);
+        jPanel2.add(categoryInput, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.add(jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(22, 66, 91));
-        jPanel4.setPreferredSize(new java.awt.Dimension(460, 70));
+        jPanel4.setPreferredSize(new java.awt.Dimension(460, 200));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Description");
         jPanel4.add(jLabel3, java.awt.BorderLayout.CENTER);
 
         descriptionInput.setBackground(new java.awt.Color(201, 214, 222));
-        descriptionInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        descriptionInput.setForeground(new java.awt.Color(0, 0, 0));
-        descriptionInput.setPreferredSize(new java.awt.Dimension(71, 30));
-        descriptionInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descriptionInputActionPerformed(evt);
-            }
-        });
-        jPanel4.add(descriptionInput, java.awt.BorderLayout.PAGE_END);
+        descriptionInput.setColumns(20);
+        descriptionInput.setRows(5);
+        descriptionInput.setPreferredSize(new java.awt.Dimension(232, 60));
+        jScrollPane1.setViewportView(descriptionInput);
+
+        jPanel4.add(jScrollPane1, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.add(jPanel4);
 
         jPanel6.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel6.setPreferredSize(new java.awt.Dimension(336, 70));
 
-        loginButton.setBackground(new java.awt.Color(51, 124, 165));
-        loginButton.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setText("Add");
-        loginButton.setPreferredSize(new java.awt.Dimension(75, 30));
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        addcategoryButton.setBackground(new java.awt.Color(51, 124, 165));
+        addcategoryButton.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        addcategoryButton.setForeground(new java.awt.Color(255, 255, 255));
+        addcategoryButton.setText("Add");
+        addcategoryButton.setPreferredSize(new java.awt.Dimension(75, 30));
+        addcategoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                addcategoryButtonActionPerformed(evt);
             }
         });
 
@@ -121,15 +125,15 @@ public class addCategoryForm extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                .addComponent(addcategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                 .addGap(75, 75, 75))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addComponent(addcategoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel6);
@@ -150,27 +154,36 @@ public class addCategoryForm extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void categoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryNameActionPerformed
+    private void categoryInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_categoryNameActionPerformed
+    }//GEN-LAST:event_categoryInputActionPerformed
 
-    private void descriptionInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_descriptionInputActionPerformed
+    private void addcategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcategoryButtonActionPerformed
+        String catName = this.categoryInput.getText();
+        String description = this.descriptionInput.getText();
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-
-    }//GEN-LAST:event_loginButtonActionPerformed
+        if (catName == null || catName.isBlank()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Category name cannot be empty",
+                    "Input Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+//        this.categoryController.
+      
+    }//GEN-LAST:event_addcategoryButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField categoryName;
-    private javax.swing.JTextField descriptionInput;
+    private javax.swing.JButton addcategoryButton;
+    private javax.swing.JTextField categoryInput;
+    private javax.swing.JTextArea descriptionInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -179,6 +192,6 @@ public class addCategoryForm extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JButton loginButton;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
