@@ -4,9 +4,15 @@
  */
 package canteen_management_system.ui;
 
+import canteen_management_system.controller.CategoryController;
+import canteen_management_system.model.CategoryModel;
+import java.awt.CardLayout;
 import java.awt.Panel;
+import java.util.LinkedList;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +28,20 @@ public class AdminPanel extends javax.swing.JFrame {
     public AdminPanel() {
         initComponents();
     }
+    
+    private void refreshTableValue(String value) {
+        DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
+        CategoryController test = new CategoryController();
+        model.setRowCount(0);
+        for (CategoryModel c : test.getAllCategoryList()) {
+            Object[] row = {
+                c.getId(),c.getCategoryName(),
+            c.getDescription()
+            
+            };
+            model.addRow(row);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,106 +52,265 @@ public class AdminPanel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        adminPanelWrapper = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        adminPanelWrapper = new javax.swing.JPanel();
+        welcomepage = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        categoryPanel = new javax.swing.JPanel();
+        editCatgory = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        categoryTable = new javax.swing.JTable();
+        adminPanelMenu = new javax.swing.JMenuBar();
+        categoryViewItem = new javax.swing.JMenu();
+        listCatgorySubMenu = new javax.swing.JMenuItem();
+        addCatgorySubMenu = new javax.swing.JMenuItem();
+        foodItemMenu = new javax.swing.JMenu();
+        viewFoodSubMenu = new javax.swing.JMenuItem();
+        addFoodSubMenu = new javax.swing.JMenuItem();
+        userMenu = new javax.swing.JMenu();
+        listUserSubMenu = new javax.swing.JMenuItem();
+        addUserSubMenu = new javax.swing.JMenuItem();
+        customerMenu = new javax.swing.JMenu();
+        listCustomerSubMenu = new javax.swing.JMenuItem();
+        addCategorySubMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        adminPanelWrapper.setBackground(new java.awt.Color(255, 255, 255));
+        adminPanelWrapper.setBackground(new java.awt.Color(201, 214, 222));
+        adminPanelWrapper.setPreferredSize(new java.awt.Dimension(640, 350));
+        adminPanelWrapper.setLayout(new java.awt.CardLayout());
 
-        jPanel1.setBackground(new java.awt.Color(201, 214, 222));
-        jPanel1.setPreferredSize(new java.awt.Dimension(640, 350));
+        welcomepage.setBackground(new java.awt.Color(201, 214, 222));
+        welcomepage.setPreferredSize(new java.awt.Dimension(640, 350));
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Welcome to Admin Panel");
+        jLabel2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Welcome to Admin Panel");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(133, 133, 133)
-                .addComponent(jLabel1)
-                .addContainerGap(147, Short.MAX_VALUE))
+        javax.swing.GroupLayout welcomepageLayout = new javax.swing.GroupLayout(welcomepage);
+        welcomepage.setLayout(welcomepageLayout);
+        welcomepageLayout.setHorizontalGroup(
+            welcomepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomepageLayout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(jLabel1)
-                .addContainerGap(196, Short.MAX_VALUE))
+        welcomepageLayout.setVerticalGroup(
+            welcomepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomepageLayout.createSequentialGroup()
+                .addGap(131, 131, 131)
+                .addComponent(jLabel2)
+                .addContainerGap(176, Short.MAX_VALUE))
         );
 
-        adminPanelWrapper.setViewportView(jPanel1);
+        adminPanelWrapper.add(welcomepage, "card3");
 
-        jMenu1.setText("Category");
-
-        jMenuItem1.setText("Add");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        editCatgory.setText("Edit");
+        editCatgory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                editCatgoryActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("View");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+        jButton2.setText("Delete");
+
+        categoryTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "S.N", "Name", "Description"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jMenu1.add(jMenuItem2);
+        jScrollPane1.setViewportView(categoryTable);
+        if (categoryTable.getColumnModel().getColumnCount() > 0) {
+            categoryTable.getColumnModel().getColumn(0).setResizable(false);
+            categoryTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+        }
 
-        jMenuBar1.add(jMenu1);
+        javax.swing.GroupLayout categoryPanelLayout = new javax.swing.GroupLayout(categoryPanel);
+        categoryPanel.setLayout(categoryPanelLayout);
+        categoryPanelLayout.setHorizontalGroup(
+            categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(categoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, categoryPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(editCatgory)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addGap(8, 8, 8)))
+                .addContainerGap())
+        );
+        categoryPanelLayout.setVerticalGroup(
+            categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(categoryPanelLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(editCatgory))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        jMenu2.setText("Food Item");
-        jMenuBar1.add(jMenu2);
+        adminPanelWrapper.add(categoryPanel, "card2");
 
-        jMenu3.setText("User");
-        jMenuBar1.add(jMenu3);
+        categoryViewItem.setText("Category");
+        categoryViewItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryViewItemActionPerformed(evt);
+            }
+        });
 
-        jMenu4.setText("Customer");
-        jMenuBar1.add(jMenu4);
+        listCatgorySubMenu.setText("List");
+        listCatgorySubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listCatgorySubMenuActionPerformed(evt);
+            }
+        });
+        categoryViewItem.add(listCatgorySubMenu);
 
-        setJMenuBar(jMenuBar1);
+        addCatgorySubMenu.setText("Add");
+        addCatgorySubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCatgorySubMenuActionPerformed(evt);
+            }
+        });
+        categoryViewItem.add(addCatgorySubMenu);
+
+        adminPanelMenu.add(categoryViewItem);
+
+        foodItemMenu.setText("Food item");
+        foodItemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                foodItemMenuActionPerformed(evt);
+            }
+        });
+
+        viewFoodSubMenu.setText("List");
+        viewFoodSubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewFoodSubMenuActionPerformed(evt);
+            }
+        });
+        foodItemMenu.add(viewFoodSubMenu);
+
+        addFoodSubMenu.setText("Add");
+        foodItemMenu.add(addFoodSubMenu);
+
+        adminPanelMenu.add(foodItemMenu);
+
+        userMenu.setText("User");
+
+        listUserSubMenu.setText("List");
+        userMenu.add(listUserSubMenu);
+
+        addUserSubMenu.setText("Add");
+        userMenu.add(addUserSubMenu);
+
+        adminPanelMenu.add(userMenu);
+
+        customerMenu.setText("Customer");
+
+        listCustomerSubMenu.setText("List");
+        customerMenu.add(listCustomerSubMenu);
+
+        addCategorySubMenu.setText("Add");
+        addCategorySubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCategorySubMenuActionPerformed(evt);
+            }
+        });
+        customerMenu.add(addCategorySubMenu);
+
+        adminPanelMenu.add(customerMenu);
+
+        setJMenuBar(adminPanelMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
+            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       JDialog addCategory = new JDialog(this, "Add Category", true);
+    private void addCatgorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCatgorySubMenuActionPerformed
+        JDialog addCategory = new JDialog(this, "Add Category", true);
+        JPanel categoryPanel = new AddCategoryForm();
+        addCategory.setContentPane(categoryPanel);
+        addCategory.pack();
+        addCategory.setVisible(true);
+        this.refreshTableValue(" ");
+        
        
-       JPanel categoryPanel = new AddCategoryForm();
-       
-       addCategory.setContentPane(categoryPanel);
-       addCategory.pack();
-       addCategory.setVisible(true);
-       
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_addCatgorySubMenuActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void listCatgorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listCatgorySubMenuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+        CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
+        cl.show(adminPanelWrapper, "card2");
+   
+    }//GEN-LAST:event_listCatgorySubMenuActionPerformed
+
+    private void editCatgoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCatgoryActionPerformed
+       int selectedRow = categoryTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a row first.");
+            return;
+        }
+        System.out.println(selectedRow);
+        JDialog addCategory = new JDialog(this, "Add Category", true);
+        JPanel categoryPanel = new AddCategoryForm(1, "Raghu", "Man");
+        addCategory.setContentPane(categoryPanel);
+        addCategory.pack();
+        addCategory.setVisible(true);
+        this.refreshTableValue(" ");
+    }//GEN-LAST:event_editCatgoryActionPerformed
+
+    private void categoryViewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryViewItemActionPerformed
+
+    }//GEN-LAST:event_categoryViewItemActionPerformed
+
+    private void foodItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foodItemMenuActionPerformed
+      // TODO add your handling code here:
+    }//GEN-LAST:event_foodItemMenuActionPerformed
+
+    private void viewFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewFoodSubMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewFoodSubMenuActionPerformed
+
+    private void addCategorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategorySubMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addCategorySubMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,15 +338,26 @@ public class AdminPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane adminPanelWrapper;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem addCategorySubMenu;
+    private javax.swing.JMenuItem addCatgorySubMenu;
+    private javax.swing.JMenuItem addFoodSubMenu;
+    private javax.swing.JMenuItem addUserSubMenu;
+    private javax.swing.JMenuBar adminPanelMenu;
+    private javax.swing.JPanel adminPanelWrapper;
+    private javax.swing.JPanel categoryPanel;
+    private javax.swing.JTable categoryTable;
+    private javax.swing.JMenu categoryViewItem;
+    private javax.swing.JMenu customerMenu;
+    private javax.swing.JButton editCatgory;
+    private javax.swing.JMenu foodItemMenu;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem listCatgorySubMenu;
+    private javax.swing.JMenuItem listCustomerSubMenu;
+    private javax.swing.JMenuItem listUserSubMenu;
+    private javax.swing.JMenu userMenu;
+    private javax.swing.JMenuItem viewFoodSubMenu;
+    private javax.swing.JPanel welcomepage;
     // End of variables declaration//GEN-END:variables
 }

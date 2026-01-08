@@ -5,7 +5,9 @@
 package canteen_management_system.ui;
 
 import canteen_management_system.controller.CategoryController;
+import java.awt.Window;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -19,6 +21,13 @@ public class AddCategoryForm extends javax.swing.JPanel {
     public AddCategoryForm() {
         initComponents();
     }
+    
+    public AddCategoryForm(int id, String name, String description) {
+        initComponents();
+        this.headerName.setText("Update Category");
+        this.categoryInput.setText(name);
+        this.descriptionInput.setText(description);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,7 +39,7 @@ public class AddCategoryForm extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        headerName = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -57,10 +66,10 @@ public class AddCategoryForm extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(22, 66, 91));
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        headerName.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        headerName.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Add Category");
+        headerName.setText("Add Category");
 
         jPanel1.setBackground(new java.awt.Color(22, 66, 91));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -145,14 +154,14 @@ public class AddCategoryForm extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(120, 120, 120)
-                .addComponent(jLabel1)
+                .addComponent(headerName)
                 .addContainerGap(124, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel1)
+                .addComponent(headerName)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -175,8 +184,11 @@ public class AddCategoryForm extends javax.swing.JPanel {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-//        this.categoryController.
-      
+        this.categoryController.addController(catName, description);
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose(); // closes the JDialog
+        }
     }//GEN-LAST:event_addcategoryButtonActionPerformed
 
 
@@ -184,7 +196,7 @@ public class AddCategoryForm extends javax.swing.JPanel {
     private javax.swing.JButton addcategoryButton;
     private javax.swing.JTextField categoryInput;
     private javax.swing.JTextArea descriptionInput;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel headerName;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
