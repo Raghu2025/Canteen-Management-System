@@ -7,8 +7,6 @@ package canteen_management_system.ui;
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.model.CategoryModel;
 import java.awt.CardLayout;
-import java.awt.Panel;
-import java.util.LinkedList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,24 +19,30 @@ import javax.swing.table.DefaultTableModel;
 public class AdminPanel extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminPanel.class.getName());
-
+    public CategoryController categoryController = new CategoryController();
+    
     /**
      * Creates new form AdminPanel
      */
     public AdminPanel() {
         initComponents();
+        
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+
+        this.refreshTableValue(" ");
+        
+        
     }
     
     private void refreshTableValue(String value) {
         DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
-        CategoryController test = new CategoryController();
         model.setRowCount(0);
-        for (CategoryModel c : test.getAllCategoryList()) {
-            Object[] row = {
-                c.getId(),c.getCategoryName(),
-            c.getDescription()
-            
-            };
+        for (CategoryModel c : categoryController.getAllCategoryList()) {
+            Object[] row = {c.getId(),c.getCategoryName(),c.getDescription()};
             model.addRow(row);
         }
     }
@@ -57,9 +61,10 @@ public class AdminPanel extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         categoryPanel = new javax.swing.JPanel();
         editCatgory = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        deleteCategory = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         categoryTable = new javax.swing.JTable();
+        categorySearch = new javax.swing.JTextField();
         adminPanelMenu = new javax.swing.JMenuBar();
         categoryViewItem = new javax.swing.JMenu();
         listCatgorySubMenu = new javax.swing.JMenuItem();
@@ -113,7 +118,12 @@ public class AdminPanel extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Delete");
+        deleteCategory.setText("Delete");
+        deleteCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCategoryActionPerformed(evt);
+            }
+        });
 
         categoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -147,29 +157,37 @@ public class AdminPanel extends javax.swing.JFrame {
             categoryTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         }
 
+        categorySearch.setToolTipText("Search by name and description");
+
         javax.swing.GroupLayout categoryPanelLayout = new javax.swing.GroupLayout(categoryPanel);
         categoryPanel.setLayout(categoryPanelLayout);
         categoryPanelLayout.setHorizontalGroup(
             categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(categoryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, categoryPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(categoryPanelLayout.createSequentialGroup()
+                        .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(editCatgory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(deleteCategory)
                         .addGap(8, 8, 8)))
                 .addContainerGap())
         );
         categoryPanelLayout.setVerticalGroup(
             categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(categoryPanelLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(editCatgory))
+                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(categoryPanelLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteCategory)
+                            .addComponent(editCatgory)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, categoryPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                 .addContainerGap())
@@ -288,8 +306,11 @@ public class AdminPanel extends javax.swing.JFrame {
             return;
         }
         System.out.println(selectedRow);
-        JDialog addCategory = new JDialog(this, "Add Category", true);
-        JPanel categoryPanel = new AddCategoryForm(1, "Raghu", "Man");
+        int categoryId = (int) categoryTable.getValueAt(selectedRow, 0); // assuming ID is in column 0
+        String categoryName = (String) categoryTable.getValueAt(selectedRow, 1);
+        String categoryDescription = (String) categoryTable.getValueAt(selectedRow, 2);
+        JDialog addCategory = new JDialog(this, "Update Category", true);
+        JPanel categoryPanel = new AddCategoryForm(categoryId, categoryName, categoryDescription);
         addCategory.setContentPane(categoryPanel);
         addCategory.pack();
         addCategory.setVisible(true);
@@ -311,6 +332,41 @@ public class AdminPanel extends javax.swing.JFrame {
     private void addCategorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategorySubMenuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addCategorySubMenuActionPerformed
+
+    private void deleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCategoryActionPerformed
+        int selectedRow = categoryTable.getSelectedRow();
+
+        // 1️⃣ Check if a row is selected
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a row first.");
+            return;
+        }
+
+        // 2️⃣ Get category info from the table
+        int categoryId = (int) categoryTable.getValueAt(selectedRow, 0);
+        String categoryName = (String) categoryTable.getValueAt(selectedRow, 1);
+
+        // 3️⃣ Ask for confirmation
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete the category: " + categoryName + "?",
+                "Delete Confirmation",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+
+        boolean deleted = this.categoryController.deleteCategory(categoryId);
+        if (deleted) {
+            JOptionPane.showMessageDialog(this, "Category deleted successfully.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: Could not delete category.");
+        }
+        refreshTableValue("");
+    }//GEN-LAST:event_deleteCategoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -345,12 +401,13 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JMenuBar adminPanelMenu;
     private javax.swing.JPanel adminPanelWrapper;
     private javax.swing.JPanel categoryPanel;
+    private javax.swing.JTextField categorySearch;
     private javax.swing.JTable categoryTable;
     private javax.swing.JMenu categoryViewItem;
     private javax.swing.JMenu customerMenu;
+    private javax.swing.JButton deleteCategory;
     private javax.swing.JButton editCatgory;
     private javax.swing.JMenu foodItemMenu;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem listCatgorySubMenu;

@@ -5,6 +5,7 @@
 package canteen_management_system.ui;
 
 import canteen_management_system.controller.CategoryController;
+import canteen_management_system.model.CategoryModel;
 import java.awt.Window;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -15,6 +16,8 @@ import javax.swing.SwingUtilities;
  */
 public class AddCategoryForm extends javax.swing.JPanel {
     CategoryController categoryController = new CategoryController();
+    boolean isUpdate = false;
+    CategoryModel toBeUpdated = null;
     /**
      * Creates new form addCategoryForm
      */
@@ -24,9 +27,12 @@ public class AddCategoryForm extends javax.swing.JPanel {
     
     public AddCategoryForm(int id, String name, String description) {
         initComponents();
+        this.isUpdate = true;
         this.headerName.setText("Update Category");
+        this.addcategoryButton.setText("Update");
         this.categoryInput.setText(name);
         this.descriptionInput.setText(description);
+        this.toBeUpdated = new CategoryModel(id, name, description);
     }
 
     /**
@@ -175,7 +181,6 @@ public class AddCategoryForm extends javax.swing.JPanel {
     private void addcategoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcategoryButtonActionPerformed
         String catName = this.categoryInput.getText();
         String description = this.descriptionInput.getText();
-
         if (catName == null || catName.isBlank()) {
             JOptionPane.showMessageDialog(
                     this,
@@ -184,7 +189,13 @@ public class AddCategoryForm extends javax.swing.JPanel {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-        this.categoryController.addController(catName, description);
+        if (this.isUpdate) {
+            this.toBeUpdated.setCategoryName(catName);
+            this.toBeUpdated.setDescription(description);
+            this.categoryController.updateCategory(this.toBeUpdated);
+        } else {
+            this.categoryController.addCategory(catName, description);
+        }
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window != null) {
             window.dispose(); // closes the JDialog

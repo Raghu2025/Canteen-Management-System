@@ -18,7 +18,7 @@ public class CategoryController {
     public CategoryController() {
     }
     
-    public String addController(String name, String description) {
+    public String addCategory(String name, String description) {
         int newId = CategoryData.getAllCategory().size() + 1;
         CategoryData.addCategory(new CategoryModel(newId,name, description));
         return "";
@@ -28,6 +28,13 @@ public class CategoryController {
         return CategoryData.getAllCategory();
     }
     
+    public boolean updateCategory(CategoryModel updatedCategory){
+        return CategoryData.updateCategory(updatedCategory);
+    }
+    
+    public boolean deleteCategory(int id){
+        return CategoryData.deleteCategory(id);
+    }
 //    public String[][] getTableValue(){
 //        String[] header = {"category Name", "Description"};
 //        String[][] row = new String;
