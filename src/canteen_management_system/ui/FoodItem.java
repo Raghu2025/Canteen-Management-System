@@ -4,17 +4,43 @@
  */
 package canteen_management_system.ui;
 
+import canteen_management_system.controller.CategoryController;
+import canteen_management_system.model.CategoryModel;
+import canteen_management_system.model.FoodItemModel;
+import java.util.ArrayList;
+
 /**
  *
  * @author User
  */
 public class FoodItem extends javax.swing.JPanel {
 
+    public CategoryController categoryController = new CategoryController();
+    public boolean isUpdate = false;
+    public FoodItemModel toBeUpdate = null;
+
     /**
      * Creates new form FoodItem
      */
     public FoodItem() {
         initComponents();
+        setCategoryList();
+    }
+
+    private void setCategoryList() {
+        ArrayList<String> categories = new ArrayList();
+        for (CategoryModel c : categoryController.getAllCategoryList()) {
+            categories.add(c.getCategoryName());
+        }
+        String[] cl = categories.toArray(new String[0]);
+        foodSelect.setModel(new javax.swing.DefaultComboBoxModel<>(cl));
+    }
+
+    public FoodItem(int id) {
+        initComponents();
+        setCategoryList();
+        isUpdate = true;
+//        this.toBeUpdate = new FoodItemModel(id, name, description, price, quantity, category);
     }
 
     /**
@@ -26,19 +52,243 @@ public class FoodItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        headerName = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        foodInput = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        foodSelect = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        priceInput = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        qualityInput = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        descriptionInput = new javax.swing.JTextArea();
+        jPanel6 = new javax.swing.JPanel();
+        addFoodButton = new javax.swing.JButton();
+
+        setBackground(new java.awt.Color(22, 66, 91));
+
+        headerName.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        headerName.setForeground(new java.awt.Color(255, 255, 255));
+        headerName.setText("Add Food");
+
+        jPanel5.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel2.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel2.setPreferredSize(new java.awt.Dimension(200, 70));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Food Name");
+        jPanel2.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        foodInput.setBackground(new java.awt.Color(201, 214, 222));
+        foodInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        foodInput.setForeground(new java.awt.Color(0, 0, 0));
+        foodInput.setPreferredSize(new java.awt.Dimension(71, 30));
+        foodInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                foodInputActionPerformed(evt);
+            }
+        });
+        jPanel2.add(foodInput, java.awt.BorderLayout.PAGE_END);
+
+        jPanel5.add(jPanel2);
+
+        jPanel8.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel8.setPreferredSize(new java.awt.Dimension(200, 70));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Category");
+        jPanel8.add(jLabel6, java.awt.BorderLayout.CENTER);
+
+        foodSelect.setBackground(new java.awt.Color(201, 214, 222));
+        foodSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        foodSelect.setPreferredSize(new java.awt.Dimension(72, 30));
+        jPanel8.add(foodSelect, java.awt.BorderLayout.PAGE_END);
+
+        jPanel5.add(jPanel8);
+
+        jPanel3.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel3.setPreferredSize(new java.awt.Dimension(200, 70));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Price");
+        jPanel3.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        priceInput.setBackground(new java.awt.Color(201, 214, 222));
+        priceInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        priceInput.setForeground(new java.awt.Color(0, 0, 0));
+        priceInput.setPreferredSize(new java.awt.Dimension(71, 30));
+        priceInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceInputActionPerformed(evt);
+            }
+        });
+        jPanel3.add(priceInput, java.awt.BorderLayout.PAGE_END);
+
+        jPanel5.add(jPanel3);
+
+        jPanel7.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel7.setPreferredSize(new java.awt.Dimension(200, 70));
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Quantity");
+        jPanel7.add(jLabel5, java.awt.BorderLayout.CENTER);
+
+        qualityInput.setBackground(new java.awt.Color(201, 214, 222));
+        qualityInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        qualityInput.setForeground(new java.awt.Color(0, 0, 0));
+        qualityInput.setPreferredSize(new java.awt.Dimension(71, 30));
+        qualityInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                qualityInputActionPerformed(evt);
+            }
+        });
+        jPanel7.add(qualityInput, java.awt.BorderLayout.PAGE_END);
+
+        jPanel5.add(jPanel7);
+
+        jPanel4.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel4.setPreferredSize(new java.awt.Dimension(460, 200));
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Description");
+        jPanel4.add(jLabel3, java.awt.BorderLayout.CENTER);
+
+        descriptionInput.setBackground(new java.awt.Color(201, 214, 222));
+        descriptionInput.setColumns(20);
+        descriptionInput.setRows(5);
+        descriptionInput.setPreferredSize(new java.awt.Dimension(232, 60));
+        jScrollPane1.setViewportView(descriptionInput);
+
+        jPanel4.add(jScrollPane1, java.awt.BorderLayout.PAGE_END);
+
+        jPanel5.add(jPanel4);
+
+        jPanel6.setBackground(new java.awt.Color(22, 66, 91));
+        jPanel6.setPreferredSize(new java.awt.Dimension(336, 70));
+
+        addFoodButton.setBackground(new java.awt.Color(51, 124, 165));
+        addFoodButton.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        addFoodButton.setForeground(new java.awt.Color(255, 255, 255));
+        addFoodButton.setText("Add");
+        addFoodButton.setPreferredSize(new java.awt.Dimension(75, 30));
+        addFoodButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFoodButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(addFoodButton, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                .addGap(79, 79, 79))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(addFoodButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+        );
+
+        jPanel5.add(jPanel6);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(headerName)
+                .addGap(165, 165, 165))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(headerName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addFoodButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFoodButtonActionPerformed
+//        String catName = this.categoryInput.getText();
+//        String description = this.descriptionInput.getText();
+//        if (catName == null || catName.isBlank()) {
+//            JOptionPane.showMessageDialog(
+//                this,
+//                "Category name cannot be empty",
+//                "Input Warning",
+//                JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//        if (this.isUpdate) {
+//            this.toBeUpdated.setCategoryName(catName);
+//            this.toBeUpdated.setDescription(description);
+//            this.categoryController.updateCategory(this.toBeUpdated);
+//        } else {
+//            this.categoryController.addCategory(catName, description);
+//        }
+//        Window window = SwingUtilities.getWindowAncestor(this);
+//        if (window != null) {
+//            window.dispose(); // closes the JDialog
+//        }
+    }//GEN-LAST:event_addFoodButtonActionPerformed
+
+    private void qualityInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qualityInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_qualityInputActionPerformed
+
+    private void priceInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priceInputActionPerformed
+
+    private void foodInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foodInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_foodInputActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addFoodButton;
+    private javax.swing.JTextArea descriptionInput;
+    private javax.swing.JTextField foodInput;
+    private javax.swing.JComboBox<String> foodSelect;
+    private javax.swing.JLabel headerName;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField priceInput;
+    private javax.swing.JTextField qualityInput;
     // End of variables declaration//GEN-END:variables
 }

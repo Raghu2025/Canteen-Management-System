@@ -19,21 +19,42 @@ public class CategoryController {
     }
     
     public String addCategory(String name, String description) {
-        int newId = CategoryData.getAllCategory().size() + 1;
-        CategoryData.addCategory(new CategoryModel(newId,name, description));
-        return "";
+        LinkedList<CategoryModel> allCategory = CategoryData.getAllCategory();
+        for (CategoryModel c : allCategory) {
+            if (c.getCategoryName().equalsIgnoreCase(name.trim())) {
+                return "Category already exists!";
+            }
+        }
+        int newId = allCategory.size() + 1;
+        CategoryData.addCategory(new CategoryModel(newId, name, description));
+        return "Successfully added";
     }
     
     public LinkedList<CategoryModel> getAllCategoryList(){
         return CategoryData.getAllCategory();
     }
-    
-    public boolean updateCategory(CategoryModel updatedCategory){
+
+    public boolean updateCategory(CategoryModel updatedCategory) {
+        LinkedList<CategoryModel> allCategory = CategoryData.getAllCategory();
+        for (CategoryModel c : allCategory) {
+            if (c.getCategoryName().equalsIgnoreCase(updatedCategory.getCategoryName().trim())) {
+                return false;
+            }
+        }
         return CategoryData.updateCategory(updatedCategory);
     }
     
     public boolean deleteCategory(int id){
         return CategoryData.deleteCategory(id);
+    }
+    
+    public static CategoryModel findById(int id) {
+        for (CategoryModel c : CategoryData.getAllCategory()) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
     }
 //    public String[][] getTableValue(){
 //        String[] header = {"category Name", "Description"};

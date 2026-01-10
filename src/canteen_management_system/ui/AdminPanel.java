@@ -306,11 +306,9 @@ public class AdminPanel extends javax.swing.JFrame {
             return;
         }
         System.out.println(selectedRow);
-        int categoryId = (int) categoryTable.getValueAt(selectedRow, 0); // assuming ID is in column 0
-        String categoryName = (String) categoryTable.getValueAt(selectedRow, 1);
-        String categoryDescription = (String) categoryTable.getValueAt(selectedRow, 2);
+        int categoryId = (int) categoryTable.getValueAt(selectedRow, 0);
         JDialog addCategory = new JDialog(this, "Update Category", true);
-        JPanel categoryPanel = new AddCategoryForm(categoryId, categoryName, categoryDescription);
+        JPanel categoryPanel = new AddCategoryForm(categoryId);
         addCategory.setContentPane(categoryPanel);
         addCategory.pack();
         addCategory.setVisible(true);

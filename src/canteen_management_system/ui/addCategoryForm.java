@@ -25,14 +25,14 @@ public class AddCategoryForm extends javax.swing.JPanel {
         initComponents();
     }
     
-    public AddCategoryForm(int id, String name, String description) {
+    public AddCategoryForm(int id) {
         initComponents();
         this.isUpdate = true;
         this.headerName.setText("Update Category");
         this.addcategoryButton.setText("Update");
-        this.categoryInput.setText(name);
-        this.descriptionInput.setText(description);
-        this.toBeUpdated = new CategoryModel(id, name, description);
+        this.toBeUpdated = categoryController.findById(id);
+        this.categoryInput.setText(this.toBeUpdated.getCategoryName());
+        this.descriptionInput.setText(this.toBeUpdated.getDescription());
     }
 
     /**
