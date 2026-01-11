@@ -89,7 +89,6 @@ public class AdminPanel extends javax.swing.JFrame {
         welcomepage.setPreferredSize(new java.awt.Dimension(640, 350));
 
         jLabel2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Welcome to Admin Panel");
 
         javax.swing.GroupLayout welcomepageLayout = new javax.swing.GroupLayout(welcomepage);
@@ -236,6 +235,11 @@ public class AdminPanel extends javax.swing.JFrame {
         foodItemMenu.add(viewFoodSubMenu);
 
         addFoodSubMenu.setText("Add");
+        addFoodSubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFoodSubMenuActionPerformed(evt);
+            }
+        });
         foodItemMenu.add(addFoodSubMenu);
 
         adminPanelMenu.add(foodItemMenu);
@@ -288,8 +292,6 @@ public class AdminPanel extends javax.swing.JFrame {
         addCategory.pack();
         addCategory.setVisible(true);
         this.refreshTableValue(" ");
-        
-       
     }//GEN-LAST:event_addCatgorySubMenuActionPerformed
 
     private void listCatgorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listCatgorySubMenuActionPerformed
@@ -365,6 +367,15 @@ public class AdminPanel extends javax.swing.JFrame {
         }
         refreshTableValue("");
     }//GEN-LAST:event_deleteCategoryActionPerformed
+
+    private void addFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFoodSubMenuActionPerformed
+        JDialog addCategory = new JDialog(this, "Add FoodItem", true);
+        JPanel foodItem = new FoodItem();
+        addCategory.setContentPane(foodItemMenu);
+        addCategory.pack();
+        addCategory.setVisible(true);
+        this.refreshTableValue(" ");
+    }//GEN-LAST:event_addFoodSubMenuActionPerformed
 
     /**
      * @param args the command line arguments

@@ -56,6 +56,16 @@ public class CategoryController {
         }
         return null;
     }
+    
+    public static CategoryModel findByName(String name) {
+        for (CategoryModel c : CategoryData.getAllCategory()) {
+            if (c.getCategoryName().equalsIgnoreCase(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
 //    public String[][] getTableValue(){
 //        String[] header = {"category Name", "Description"};
 //        String[][] row = new String;

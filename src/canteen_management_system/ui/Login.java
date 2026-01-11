@@ -59,7 +59,6 @@ public class Login extends javax.swing.JFrame {
         loginMainWrapper.setPreferredSize(new java.awt.Dimension(1280, 700));
 
         jLabel1.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("CMS");
 
         loginInputWrapper.setBackground(new java.awt.Color(22, 66, 91));
@@ -70,8 +69,6 @@ public class Login extends javax.swing.JFrame {
 
         emailInput.setBackground(new java.awt.Color(201, 214, 222));
         emailInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        emailInput.setForeground(new java.awt.Color(0, 0, 0));
-        emailInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(201, 214, 222), 2, true));
         emailInput.setPreferredSize(new java.awt.Dimension(64, 30));
         emailInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +97,6 @@ public class Login extends javax.swing.JFrame {
 
         passwordInput.setBackground(new java.awt.Color(201, 214, 222));
         passwordInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        passwordInput.setForeground(new java.awt.Color(0, 0, 0));
         passwordInput.setPreferredSize(new java.awt.Dimension(90, 30));
         passwordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +149,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginMainWrapperLayout.createSequentialGroup()
-                .addContainerGap(477, Short.MAX_VALUE)
+                .addContainerGap(498, Short.MAX_VALUE)
                 .addComponent(loginInputWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(433, 433, 433))
         );
@@ -164,20 +160,20 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(54, 54, 54)
                 .addComponent(loginInputWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loginMainWrapper, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1252, Short.MAX_VALUE)
+            .addComponent(loginMainWrapper, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(loginMainWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(loginMainWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();

@@ -3,18 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/CanteenManagementSystem.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/ui/AddCategoryForm.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/ui/AdminPanel.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/controller/CategoryController.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/systemData/CategoryData.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/model/CategoryModel.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/model/UserModel.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/model/CustomerModel.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/model/FoodItemModel.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/ui/FoodItem.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/systemData/FoodItemData.java</file>
-            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/controller/FoodItemController.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/model/FoodItemModel.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/ui/FoodItem.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/controller/FoodItemController.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/ui/addCategoryForm.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/systemData/CategoryData.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/systemData/FoodItemData.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/controller/CategoryController.java</file>
+            <file>file:/D:/Canteen-Management-System/src/canteen_management_system/ui/AdminPanel.java</file>
         </group>
     </open-files>
 </project-private>

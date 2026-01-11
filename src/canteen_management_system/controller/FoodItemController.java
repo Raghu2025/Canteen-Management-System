@@ -4,6 +4,7 @@
  */
 package canteen_management_system.controller;
 
+import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.FoodItemModel;
 import canteen_management_system.systemData.FoodItemData;
 import java.util.LinkedList;
@@ -17,44 +18,9 @@ public class FoodItemController {
     public FoodItemController() {
     }
 
-public String addFoodItem(String name, String category, String priceStr, String quantityStr, String description) {
-    name = name.trim();
-    category = category.trim();
-    description = description.trim();
-
-    if (name.isEmpty() || category.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty()) {
-        return "Please fill in all required fields!";
-    }
-
-    LinkedList<FoodItemModel> allFoodItem = FoodItemData.getAllFoodItem();
-    for (FoodItemModel c : allFoodItem) {
-        if (c.getFoodItemName().equalsIgnoreCase(name)) {
-            return "Food item already exists!";
-        }
-    }
-
-    double price;
-    int quantity;
-    try {
-        price = Double.parseDouble(priceStr);
-        if (price < 0) return "Price cannot be negative!";
-    } catch (NumberFormatException e) {
-        return "Invalid price! Please enter a number.";
-    }
-
-    try {
-        quantity = Integer.parseInt(quantityStr);
-        if (quantity < 0) return "Quantity cannot be negative!";
-    } catch (NumberFormatException e) {
-        return "Invalid quantity! Please enter a whole number.";
-    }
-
-    // 4️⃣ Generate new ID (safe even if deletions occurred)
-    int newId = allFoodItem.stream().mapToInt(FoodItemModel::getId).max().orElse(0) + 1;
-
-    // 5️⃣ Add new food item
-    FoodItemData.addFoodItem(new FoodItemModel(newId, name, category, price, quantity, description));
-
+public String addFoodItem(String name,CategoryModel category, double price, int quantity, String description) {
+    int newId = FoodItemData.getAllFoodItem().size() + 1;
+    FoodItemData.addFoodItem(new FoodItemModel(newId, name, description, price, quantity, category));
     return "Food item successfully added!";
 }
 
@@ -63,17 +29,11 @@ public String addFoodItem(String name, String category, String priceStr, String 
         return FoodItemData.getAllFoodItem();
     }
 
-    public boolean updateCategory(FoodItemModel updatedCategory) {
-        LinkedList<FoodItemModel> allCategory = FoodItemData.getAllFoodItem();
-        for (FoodItemModel c : allCategory) {
-            if (c.getFoodItemName().equalsIgnoreCase(updatedCategory.getCategoryName().trim())) {
-                return false;
-            }
-        }
-        return FoodItemData.updateFoodItem(updatedCategory);
+    public boolean updateFoodItem(FoodItemModel updatedFoodItem) {
+        return FoodItemData.updateFoodItem(updatedFoodItem);
     }
 
-    public boolean deleteCategory(int id) {
+    public boolean deleteFoodItem(int id) {
         return FoodItemData.deleteFoodItem(id);
     }
 

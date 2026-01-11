@@ -5,9 +5,14 @@
 package canteen_management_system.ui;
 
 import canteen_management_system.controller.CategoryController;
+import canteen_management_system.controller.FoodItemController;
 import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.FoodItemModel;
+import java.awt.Window;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -17,7 +22,8 @@ public class FoodItem extends javax.swing.JPanel {
 
     public CategoryController categoryController = new CategoryController();
     public boolean isUpdate = false;
-    public FoodItemModel toBeUpdate = null;
+    public FoodItemModel toBeUpdated = null;
+    public FoodItemController foodController = new FoodItemController();
 
     /**
      * Creates new form FoodItem
@@ -40,7 +46,7 @@ public class FoodItem extends javax.swing.JPanel {
         initComponents();
         setCategoryList();
         isUpdate = true;
-//        this.toBeUpdate = new FoodItemModel(id, name, description, price, quantity, category);
+        this.toBeUpdated = foodController.findById(id);
     }
 
     /**
@@ -233,27 +239,75 @@ public class FoodItem extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addFoodButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFoodButtonActionPerformed
-//        String catName = this.categoryInput.getText();
-//        String description = this.descriptionInput.getText();
-//        if (catName == null || catName.isBlank()) {
-//            JOptionPane.showMessageDialog(
-//                this,
-//                "Category name cannot be empty",
-//                "Input Warning",
-//                JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//        if (this.isUpdate) {
-//            this.toBeUpdated.setCategoryName(catName);
-//            this.toBeUpdated.setDescription(description);
-//            this.categoryController.updateCategory(this.toBeUpdated);
-//        } else {
-//            this.categoryController.addCategory(catName, description);
-//        }
-//        Window window = SwingUtilities.getWindowAncestor(this);
-//        if (window != null) {
-//            window.dispose(); // closes the JDialog
-//        }
+        String name = foodInput.getText().trim();
+        String category = foodSelect.getSelectedItem().toString().trim();
+        String description = descriptionInput.getText().trim();
+        String priceStr = priceInput.getText().trim();
+        String quantityStr = qualityInput.getText().trim();
+        double price = 0;
+        int quantity = 0;
+        String message = null;
+        boolean hasError = false;
+
+        if (name.isEmpty() || category.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty()) {
+            message = "Please fill in all required fields!";
+            hasError = true;
+        }
+
+        LinkedList<FoodItemModel> allFoodItem = foodController.getAllFoodItemList();
+        for (FoodItemModel c : allFoodItem) {
+            if (c.getFoodItemName().equalsIgnoreCase(name)) {
+                message = "Food item already exists!";
+                hasError = true;
+                break;
+            }
+        }
+
+        try {
+            price = Double.parseDouble(priceStr);
+            if (price < 0) {
+                message = "Price cannot be negative!";
+                hasError = true;
+            }
+        } catch (NumberFormatException e) {
+            message = "Invalid price! Please enter a number.";
+            hasError = true;
+        }
+
+        try {
+            quantity = Integer.parseInt(quantityStr);
+            if (quantity < 0) {
+                message = "Quantity cannot be negative!";
+                hasError = true;
+            }
+        } catch (NumberFormatException e) {
+            message = "Invalid quantity! Please enter a whole number.";
+            hasError = true;
+        }
+
+        if (hasError) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    message,
+                    "Input Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        CategoryModel categoryModel = categoryController.findByName(category);
+        if (this.isUpdate) {
+            this.toBeUpdated.setFoodItemName(name);
+            this.toBeUpdated.setDescription(description);
+            this.toBeUpdated.setPrice(price);
+            this.toBeUpdated.setQuantity(quantity);
+            this.toBeUpdated.setCategory(categoryModel);
+            this.foodController.updateFoodItem(this.toBeUpdated);
+        } else {
+            this.foodController.addFoodItem(name, categoryModel, price, quantity, description);
+        }
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose(); // closes the JDialog
+        }
     }//GEN-LAST:event_addFoodButtonActionPerformed
 
     private void qualityInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qualityInputActionPerformed
