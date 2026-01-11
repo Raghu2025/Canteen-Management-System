@@ -5,7 +5,9 @@
 package canteen_management_system.ui;
 
 import canteen_management_system.controller.CategoryController;
+import canteen_management_system.controller.FoodItemController;
 import canteen_management_system.model.CategoryModel;
+import canteen_management_system.model.FoodItemModel;
 import java.awt.CardLayout;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -20,6 +22,7 @@ public class AdminPanel extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminPanel.class.getName());
     public CategoryController categoryController = new CategoryController();
+    public FoodItemController foodItemController = new FoodItemController();
     
     /**
      * Creates new form AdminPanel
@@ -32,21 +35,37 @@ public class AdminPanel extends javax.swing.JFrame {
         this.categoryController.addCategory("Fast Food", "");
         this.categoryController.addCategory("Desserts", "");
         this.categoryController.addCategory("Fruits", "");
+        
+        this.foodItemController.addFoodItem("Coca Cola", this.categoryController.getAllCategoryList().get(0), 1.50, 50, "Chilled soft drink");
+        this.foodItemController.addFoodItem("Potato Chips", this.categoryController.getAllCategoryList().get(1), 2.00, 40, "Crispy salted chips");
+        this.foodItemController.addFoodItem("Burger", this.categoryController.getAllCategoryList().get(2), 5.99, 30, "Beef burger with cheese");
+        this.foodItemController.addFoodItem("Chocolate Cake", this.categoryController.getAllCategoryList().get(3), 4.50, 20, "Rich chocolate dessert");
+        this.foodItemController.addFoodItem("Apple", this.categoryController.getAllCategoryList().get(4), 0.80, 100, "Fresh red apples");
 
-        this.refreshTableValue(" ");
-        
-        
+   
     }
     
-    private void refreshTableValue(String value) {
+    private void refreshCategoryTable() {
+        int index = 1;
         DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
         model.setRowCount(0);
         for (CategoryModel c : categoryController.getAllCategoryList()) {
-            Object[] row = {c.getId(),c.getCategoryName(),c.getDescription()};
+            Object[] row = {index++, c.getId(),c.getCategoryName(),c.getDescription()};
             model.addRow(row);
         }
     }
 
+    private void refreshFoodTable() {
+        int index = 1;
+        DefaultTableModel model = (DefaultTableModel) foodTable.getModel();
+        model.setRowCount(0);
+        for (FoodItemModel f : foodItemController.getAllFoodItemList()) {
+            Object[] row = {index++, f.getId(), f.getFoodItemName(),
+                f.getCategory().getCategoryName(), f.getDescription(),
+                f.getQuantity(), f.getPrice()};
+            model.addRow(row);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +84,12 @@ public class AdminPanel extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         categoryTable = new javax.swing.JTable();
         categorySearch = new javax.swing.JTextField();
+        foodItemPanel = new javax.swing.JPanel();
+        editFood = new javax.swing.JButton();
+        deleteFood = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        foodTable = new javax.swing.JTable();
+        foodSearch = new javax.swing.JTextField();
         adminPanelMenu = new javax.swing.JMenuBar();
         categoryViewItem = new javax.swing.JMenu();
         listCatgorySubMenu = new javax.swing.JMenuItem();
@@ -126,20 +151,20 @@ public class AdminPanel extends javax.swing.JFrame {
 
         categoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "S.N", "Name", "Description"
+                "S.N", "ID", "Name", "Description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -164,16 +189,15 @@ public class AdminPanel extends javax.swing.JFrame {
             categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(categoryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(categoryPanelLayout.createSequentialGroup()
                         .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                         .addComponent(editCatgory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteCategory)
-                        .addGap(8, 8, 8)))
-                .addContainerGap())
+                        .addGap(14, 14, 14))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
         categoryPanelLayout.setVerticalGroup(
             categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,6 +217,96 @@ public class AdminPanel extends javax.swing.JFrame {
         );
 
         adminPanelWrapper.add(categoryPanel, "card2");
+
+        editFood.setText("Edit");
+        editFood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editFoodActionPerformed(evt);
+            }
+        });
+
+        deleteFood.setText("Delete");
+        deleteFood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteFoodActionPerformed(evt);
+            }
+        });
+
+        foodTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "S.N", "ID", "Name", "Category", "description", "quantity", "price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(foodTable);
+        if (foodTable.getColumnModel().getColumnCount() > 0) {
+            foodTable.getColumnModel().getColumn(0).setResizable(false);
+            foodTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+        }
+
+        foodSearch.setToolTipText("Search by name and description");
+        foodSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                foodSearchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout foodItemPanelLayout = new javax.swing.GroupLayout(foodItemPanel);
+        foodItemPanel.setLayout(foodItemPanelLayout);
+        foodItemPanelLayout.setHorizontalGroup(
+            foodItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(foodItemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(foodItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(foodItemPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(foodItemPanelLayout.createSequentialGroup()
+                        .addComponent(foodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                        .addComponent(editFood)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteFood)
+                        .addGap(14, 14, 14))))
+        );
+        foodItemPanelLayout.setVerticalGroup(
+            foodItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(foodItemPanelLayout.createSequentialGroup()
+                .addGroup(foodItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(foodItemPanelLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(foodItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteFood)
+                            .addComponent(editFood)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, foodItemPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(foodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        adminPanelWrapper.add(foodItemPanel, "card4");
 
         categoryViewItem.setText("Category");
         categoryViewItem.addActionListener(new java.awt.event.ActionListener() {
@@ -291,14 +405,14 @@ public class AdminPanel extends javax.swing.JFrame {
         addCategory.setContentPane(categoryPanel);
         addCategory.pack();
         addCategory.setVisible(true);
-        this.refreshTableValue(" ");
+        this.refreshCategoryTable();
     }//GEN-LAST:event_addCatgorySubMenuActionPerformed
 
     private void listCatgorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listCatgorySubMenuActionPerformed
         // TODO add your handling code here:
         CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
         cl.show(adminPanelWrapper, "card2");
-   
+        this.refreshCategoryTable();
     }//GEN-LAST:event_listCatgorySubMenuActionPerformed
 
     private void editCatgoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCatgoryActionPerformed
@@ -308,13 +422,13 @@ public class AdminPanel extends javax.swing.JFrame {
             return;
         }
         System.out.println(selectedRow);
-        int categoryId = (int) categoryTable.getValueAt(selectedRow, 0);
+        int categoryId = (int) categoryTable.getValueAt(selectedRow, 1);
         JDialog addCategory = new JDialog(this, "Update Category", true);
         JPanel categoryPanel = new AddCategoryForm(categoryId);
         addCategory.setContentPane(categoryPanel);
         addCategory.pack();
         addCategory.setVisible(true);
-        this.refreshTableValue(" ");
+        this.refreshCategoryTable();
     }//GEN-LAST:event_editCatgoryActionPerformed
 
     private void categoryViewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryViewItemActionPerformed
@@ -326,7 +440,9 @@ public class AdminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_foodItemMenuActionPerformed
 
     private void viewFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewFoodSubMenuActionPerformed
-        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
+        cl.show(adminPanelWrapper, "card4");
+        this.refreshFoodTable();
     }//GEN-LAST:event_viewFoodSubMenuActionPerformed
 
     private void addCategorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategorySubMenuActionPerformed
@@ -335,18 +451,14 @@ public class AdminPanel extends javax.swing.JFrame {
 
     private void deleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCategoryActionPerformed
         int selectedRow = categoryTable.getSelectedRow();
-
-        // 1️⃣ Check if a row is selected
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Please select a row first.");
             return;
         }
 
-        // 2️⃣ Get category info from the table
-        int categoryId = (int) categoryTable.getValueAt(selectedRow, 0);
-        String categoryName = (String) categoryTable.getValueAt(selectedRow, 1);
+        int categoryId = (int) categoryTable.getValueAt(selectedRow, 1);
+        String categoryName = (String) categoryTable.getValueAt(selectedRow, 2);
 
-        // 3️⃣ Ask for confirmation
         int confirm = JOptionPane.showConfirmDialog(
                 this,
                 "Are you sure you want to delete the category: " + categoryName + "?",
@@ -358,24 +470,66 @@ public class AdminPanel extends javax.swing.JFrame {
             return;
         }
 
-
         boolean deleted = this.categoryController.deleteCategory(categoryId);
         if (deleted) {
             JOptionPane.showMessageDialog(this, "Category deleted successfully.");
         } else {
             JOptionPane.showMessageDialog(this, "Error: Could not delete category.");
         }
-        refreshTableValue("");
+        this.refreshCategoryTable();
     }//GEN-LAST:event_deleteCategoryActionPerformed
 
     private void addFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFoodSubMenuActionPerformed
-        JDialog addCategory = new JDialog(this, "Add FoodItem", true);
+        JDialog addFoodItem = new JDialog(this, "Add FoodItem", true);
         JPanel foodItem = new FoodItem();
-        addCategory.setContentPane(foodItemMenu);
-        addCategory.pack();
-        addCategory.setVisible(true);
-        this.refreshTableValue(" ");
+        addFoodItem.setContentPane(foodItem);
+        addFoodItem.pack();
+        addFoodItem.setVisible(true);
+        this.refreshCategoryTable();
     }//GEN-LAST:event_addFoodSubMenuActionPerformed
+
+    private void editFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editFoodActionPerformed
+        int selectedRow = foodTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row first.");
+            return;
+        }
+
+        int foodId = (int) foodTable.getValueAt(selectedRow, 1);
+
+        JDialog editFood = new JDialog(this, "Update Food Item", true);
+        JPanel foodPanel = new FoodItem(foodId);
+        editFood.setContentPane(foodPanel);
+        editFood.pack();
+        editFood.setLocationRelativeTo(this);
+        editFood.setVisible(true);
+        this.refreshFoodTable();
+    }//GEN-LAST:event_editFoodActionPerformed
+
+    private void deleteFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFoodActionPerformed
+        int selectedRow = foodTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row first.");
+            return;
+        }
+
+        int foodId = (int) foodTable.getValueAt(selectedRow, 1);
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete this food item?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            foodItemController.deleteFoodItem(foodId);
+            this.refreshFoodTable();
+        }
+    }//GEN-LAST:event_deleteFoodActionPerformed
+
+    private void foodSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foodSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_foodSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,10 +569,16 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JMenu categoryViewItem;
     private javax.swing.JMenu customerMenu;
     private javax.swing.JButton deleteCategory;
+    private javax.swing.JButton deleteFood;
     private javax.swing.JButton editCatgory;
+    private javax.swing.JButton editFood;
     private javax.swing.JMenu foodItemMenu;
+    private javax.swing.JPanel foodItemPanel;
+    private javax.swing.JTextField foodSearch;
+    private javax.swing.JTable foodTable;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem listCatgorySubMenu;
     private javax.swing.JMenuItem listCustomerSubMenu;
     private javax.swing.JMenuItem listUserSubMenu;

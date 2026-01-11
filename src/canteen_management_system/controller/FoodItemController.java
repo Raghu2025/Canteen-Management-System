@@ -18,12 +18,11 @@ public class FoodItemController {
     public FoodItemController() {
     }
 
-public String addFoodItem(String name,CategoryModel category, double price, int quantity, String description) {
-    int newId = FoodItemData.getAllFoodItem().size() + 1;
-    FoodItemData.addFoodItem(new FoodItemModel(newId, name, description, price, quantity, category));
-    return "Food item successfully added!";
-}
-
+    public String addFoodItem(String name, CategoryModel category, double price, int quantity, String description) {
+        int newId = FoodItemData.getAllFoodItem().size() + 1;
+        FoodItemData.addFoodItem(new FoodItemModel(newId, name, description, price, quantity, category));
+        return "Food item successfully added!";
+    }
 
     public LinkedList<FoodItemModel> getAllFoodItemList() {
         return FoodItemData.getAllFoodItem();
@@ -45,13 +44,5 @@ public String addFoodItem(String name,CategoryModel category, double price, int 
         }
         return null;
     }
-//    public String[][] getTableValue(){
-//        String[] header = {"category Name", "Description"};
-//        String[][] row = new String;
-//        
-//       
-//        
-//       return {header, row};
-//    }
 
 }

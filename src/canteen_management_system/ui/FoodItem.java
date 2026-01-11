@@ -47,6 +47,11 @@ public class FoodItem extends javax.swing.JPanel {
         setCategoryList();
         isUpdate = true;
         this.toBeUpdated = foodController.findById(id);
+        this.foodInput.setText(toBeUpdated.getFoodItemName());
+        this.foodSelect.setSelectedItem(toBeUpdated.getCategory().getCategoryName());
+        this.descriptionInput.setText(toBeUpdated.getDescription());
+        this.qualityInput.setText(String.valueOf(toBeUpdated.getQuantity()));
+        this.priceInput.setText(String.valueOf(toBeUpdated.getPrice()));
     }
 
     /**
