@@ -6,8 +6,11 @@ package canteen_management_system.ui;
 
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.FoodItemController;
+import canteen_management_system.controller.UserController;
+import canteen_management_system.enums.Role;
 import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.FoodItemModel;
+import canteen_management_system.model.UserModel;
 import java.awt.CardLayout;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -23,6 +26,7 @@ public class AdminPanel extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminPanel.class.getName());
     public CategoryController categoryController = new CategoryController();
     public FoodItemController foodItemController = new FoodItemController();
+    public UserController userController = new UserController();
     
     /**
      * Creates new form AdminPanel
@@ -41,6 +45,48 @@ public class AdminPanel extends javax.swing.JFrame {
         this.foodItemController.addFoodItem("Burger", this.categoryController.getAllCategoryList().get(2), 5.99, 30, "Beef burger with cheese");
         this.foodItemController.addFoodItem("Chocolate Cake", this.categoryController.getAllCategoryList().get(3), 4.50, 20, "Rich chocolate dessert");
         this.foodItemController.addFoodItem("Apple", this.categoryController.getAllCategoryList().get(4), 0.80, 100, "Fresh red apples");
+        
+        // Add sample users
+        this.userController.addUser(
+                "Admin User",
+                "admin@example.com",
+                "admin123",
+                "1234567890",
+                Role.ADMIN.toString()
+        );
+
+        this.userController.addUser(
+                "John Doe",
+                "john@example.com",
+                "john123",
+                "0987654321",
+                Role.SALES_PERSON.toString()
+        );
+
+        this.userController.addUser(
+                "Jane Smith",
+                "jane@example.com",
+                "jane123",
+                "1112223333",
+                Role.SALES_PERSON.toString()
+        );
+
+        this.userController.addUser(
+                "Manager Mike",
+                "mike@example.com",
+                "mike123",
+                "4445556666",
+                Role.ADMIN.toString()
+        );
+
+        this.userController.addUser(
+                "Alice Brown",
+                "alice@example.com",
+                "alice123",
+                "7778889999",
+                Role.SALES_PERSON.toString()
+        );
+
 
    
     }
@@ -63,6 +109,18 @@ public class AdminPanel extends javax.swing.JFrame {
             Object[] row = {index++, f.getId(), f.getFoodItemName(),
                 f.getCategory().getCategoryName(), f.getDescription(),
                 f.getQuantity(), f.getPrice()};
+            model.addRow(row);
+        }
+    }
+
+    private void refreshUserTable() {
+        int index = 1;
+        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+        model.setRowCount(0);
+        for (UserModel f : userController.getAllUser()) {
+            Object[] row = {index++, f.getId(), f.getFullName(),
+                f.getRole(), f.getEmail(),
+                f.getPhoneNumber()};
             model.addRow(row);
         }
     }
@@ -90,6 +148,12 @@ public class AdminPanel extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         foodTable = new javax.swing.JTable();
         foodSearch = new javax.swing.JTextField();
+        userPanel = new javax.swing.JPanel();
+        editUser = new javax.swing.JButton();
+        deleteUser = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        userTable = new javax.swing.JTable();
+        searchUser = new javax.swing.JTextField();
         adminPanelMenu = new javax.swing.JMenuBar();
         categoryViewItem = new javax.swing.JMenu();
         listCatgorySubMenu = new javax.swing.JMenuItem();
@@ -262,6 +326,8 @@ public class AdminPanel extends javax.swing.JFrame {
         if (foodTable.getColumnModel().getColumnCount() > 0) {
             foodTable.getColumnModel().getColumn(0).setResizable(false);
             foodTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+            foodTable.getColumnModel().getColumn(5).setHeaderValue("quantity");
+            foodTable.getColumnModel().getColumn(6).setHeaderValue("price");
         }
 
         foodSearch.setToolTipText("Search by name and description");
@@ -307,6 +373,96 @@ public class AdminPanel extends javax.swing.JFrame {
         );
 
         adminPanelWrapper.add(foodItemPanel, "card4");
+
+        editUser.setText("Edit");
+        editUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editUserActionPerformed(evt);
+            }
+        });
+
+        deleteUser.setText("Delete");
+        deleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteUserActionPerformed(evt);
+            }
+        });
+
+        userTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "S.N", "ID", "Full Name", "Role", "email", "Phone Number"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(userTable);
+        if (userTable.getColumnModel().getColumnCount() > 0) {
+            userTable.getColumnModel().getColumn(0).setResizable(false);
+            userTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+        }
+
+        searchUser.setToolTipText("Search by name and description");
+        searchUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchUserActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout userPanelLayout = new javax.swing.GroupLayout(userPanel);
+        userPanel.setLayout(userPanelLayout);
+        userPanelLayout.setHorizontalGroup(
+            userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())
+                    .addGroup(userPanelLayout.createSequentialGroup()
+                        .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                        .addComponent(editUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteUser)
+                        .addGap(14, 14, 14))))
+        );
+        userPanelLayout.setVerticalGroup(
+            userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userPanelLayout.createSequentialGroup()
+                .addGroup(userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userPanelLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteUser)
+                            .addComponent(editUser)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        adminPanelWrapper.add(userPanel, "card4");
 
         categoryViewItem.setText("Category");
         categoryViewItem.addActionListener(new java.awt.event.ActionListener() {
@@ -361,9 +517,19 @@ public class AdminPanel extends javax.swing.JFrame {
         userMenu.setText("User");
 
         listUserSubMenu.setText("List");
+        listUserSubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listUserSubMenuActionPerformed(evt);
+            }
+        });
         userMenu.add(listUserSubMenu);
 
         addUserSubMenu.setText("Add");
+        addUserSubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserSubMenuActionPerformed(evt);
+            }
+        });
         userMenu.add(addUserSubMenu);
 
         adminPanelMenu.add(userMenu);
@@ -441,7 +607,7 @@ public class AdminPanel extends javax.swing.JFrame {
 
     private void viewFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewFoodSubMenuActionPerformed
         CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
-        cl.show(adminPanelWrapper, "card4");
+        cl.show(adminPanelWrapper, "card3");
         this.refreshFoodTable();
     }//GEN-LAST:event_viewFoodSubMenuActionPerformed
 
@@ -531,6 +697,33 @@ public class AdminPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_foodSearchActionPerformed
 
+    private void addUserSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserSubMenuActionPerformed
+        JDialog addUser = new JDialog(this, "Add User", true);
+        JPanel userPanel = new userPanel();
+        addUser.setContentPane(userPanel);
+        addUser.pack();
+        addUser.setVisible(true);
+        this.refreshCategoryTable();
+    }//GEN-LAST:event_addUserSubMenuActionPerformed
+
+    private void editUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editUserActionPerformed
+
+    private void deleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteUserActionPerformed
+
+    private void searchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchUserActionPerformed
+
+    private void listUserSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listUserSubMenuActionPerformed
+        CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
+        cl.show(adminPanelWrapper, "card4");
+        this.refreshUserTable();
+    }//GEN-LAST:event_listUserSubMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -570,8 +763,10 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JMenu customerMenu;
     private javax.swing.JButton deleteCategory;
     private javax.swing.JButton deleteFood;
+    private javax.swing.JButton deleteUser;
     private javax.swing.JButton editCatgory;
     private javax.swing.JButton editFood;
+    private javax.swing.JButton editUser;
     private javax.swing.JMenu foodItemMenu;
     private javax.swing.JPanel foodItemPanel;
     private javax.swing.JTextField foodSearch;
@@ -579,10 +774,14 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JMenuItem listCatgorySubMenu;
     private javax.swing.JMenuItem listCustomerSubMenu;
     private javax.swing.JMenuItem listUserSubMenu;
+    private javax.swing.JTextField searchUser;
     private javax.swing.JMenu userMenu;
+    private javax.swing.JPanel userPanel;
+    private javax.swing.JTable userTable;
     private javax.swing.JMenuItem viewFoodSubMenu;
     private javax.swing.JPanel welcomepage;
     // End of variables declaration//GEN-END:variables
