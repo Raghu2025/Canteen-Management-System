@@ -24,11 +24,11 @@ public class UserController {
         return UserData.getAllUser();
     }
 
-    public boolean updateCategory(UserModel updatedUser) {
+    public boolean updateUser(UserModel updatedUser) {
         return UserData.updateUser(updatedUser);
     }
 
-    public boolean deleteCategory(int id) {
+    public boolean deleteUser(int id) {
         return UserData.deleteUser(id);
     }
 

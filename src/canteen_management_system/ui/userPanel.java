@@ -270,20 +270,22 @@ public class userPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, message, "Input Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
+        String successMessage = "User added successfully!";
         if (this.isUpdate) {
             toBeUpdate.setFullName(fullName);
             toBeUpdate.setEmail(email);
             toBeUpdate.setPassword(password);
             toBeUpdate.setPhoneNumber(phone);
             toBeUpdate.setRole(role);
-            userController.updateCategory(toBeUpdate);
+            userController.updateUser(toBeUpdate);
+            successMessage = "User updated successfully!";
         } else {
             userController.addUser(fullName, email, password, phone, role);
         }
 
         JOptionPane.showMessageDialog(this, 
-                "User added successfully!", "Success", 
+                successMessage, "Success", 
                 JOptionPane.INFORMATION_MESSAGE);
         
         Window window = SwingUtilities.getWindowAncestor(this);
