@@ -28,18 +28,107 @@ public class SalePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        mainSalesWrapper = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        navigationWrapper = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        mainFoodAndOrderWrapper = new javax.swing.JSplitPane();
+        orderWrapper = new javax.swing.JPanel();
+        foodWrapper = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 197, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout());
+
+        jSplitPane1.setDividerLocation(80);
+        jSplitPane1.setDividerSize(0);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane1.setResizeWeight(0.2);
+        jSplitPane1.setPreferredSize(new java.awt.Dimension(100, 232));
+
+        navigationWrapper.setBackground(new java.awt.Color(204, 204, 255));
+        navigationWrapper.setPreferredSize(new java.awt.Dimension(200, 232));
+
+        javax.swing.GroupLayout navigationWrapperLayout = new javax.swing.GroupLayout(navigationWrapper);
+        navigationWrapper.setLayout(navigationWrapperLayout);
+        navigationWrapperLayout.setHorizontalGroup(
+            navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1070, Short.MAX_VALUE)
+        );
+        navigationWrapperLayout.setVerticalGroup(
+            navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 84, Short.MAX_VALUE)
+        );
+
+        jSplitPane1.setLeftComponent(navigationWrapper);
+
+        jPanel3.setBackground(new java.awt.Color(255, 102, 102));
+
+        mainFoodAndOrderWrapper.setDividerLocation(300);
+        mainFoodAndOrderWrapper.setDividerSize(0);
+
+        javax.swing.GroupLayout orderWrapperLayout = new javax.swing.GroupLayout(orderWrapper);
+        orderWrapper.setLayout(orderWrapperLayout);
+        orderWrapperLayout.setHorizontalGroup(
+            orderWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        orderWrapperLayout.setVerticalGroup(
+            orderWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+        );
+
+        mainFoodAndOrderWrapper.setLeftComponent(orderWrapper);
+
+        javax.swing.GroupLayout foodWrapperLayout = new javax.swing.GroupLayout(foodWrapper);
+        foodWrapper.setLayout(foodWrapperLayout);
+        foodWrapperLayout.setHorizontalGroup(
+            foodWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 770, Short.MAX_VALUE)
+        );
+        foodWrapperLayout.setVerticalGroup(
+            foodWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+        );
+
+        mainFoodAndOrderWrapper.setRightComponent(foodWrapper);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainFoodAndOrderWrapper, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainFoodAndOrderWrapper)
+        );
+
+        jSplitPane1.setRightComponent(jPanel3);
+
+        javax.swing.GroupLayout mainSalesWrapperLayout = new javax.swing.GroupLayout(mainSalesWrapper);
+        mainSalesWrapper.setLayout(mainSalesWrapperLayout);
+        mainSalesWrapperLayout.setHorizontalGroup(
+            mainSalesWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)
+        );
+        mainSalesWrapperLayout.setVerticalGroup(
+            mainSalesWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(mainSalesWrapper);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -70,5 +159,13 @@ public class SalePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel foodWrapper;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane mainFoodAndOrderWrapper;
+    private javax.swing.JPanel mainSalesWrapper;
+    private javax.swing.JPanel navigationWrapper;
+    private javax.swing.JPanel orderWrapper;
     // End of variables declaration//GEN-END:variables
 }
