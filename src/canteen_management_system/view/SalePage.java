@@ -4,19 +4,146 @@
  */
 package canteen_management_system.view;
 
+import canteen_management_system.controller.CategoryController;
+import canteen_management_system.model.CategoryModel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 /**
  *
  * @author User
  */
 public class SalePage extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SalePage.class.getName());
+    private CategoryController categoryController = new CategoryController();
 
     /**
      * Creates new form SalePage
      */
     public SalePage() {
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+                this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
+        this.categoryController.addCategory("Drinks", "");
+        this.categoryController.addCategory("Snacks", "");
+        this.categoryController.addCategory("Fast Food", "");
+        this.categoryController.addCategory("Desserts", "");
+        this.categoryController.addCategory("Fruits", "");
         initComponents();
+        this.setCategoryList();
+    }
+
+    public void setCategoryList() {
+    // Make sure layout is vertical
+    categoryPanelWrapper.setLayout(new BoxLayout(categoryPanelWrapper, BoxLayout.Y_AXIS));
+
+    // Remove adding scroll pane here — it should already be in CENTER
+    // foodWrapper.add(categoryScrollPanel, BorderLayout.CENTER);
+
+    // Scrollbar policy
+    categoryScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+    // Clear existing categories first (optional)
+    categoryPanelWrapper.removeAll();
+
+    // Add category panels
+    for (CategoryModel c : categoryController.getAllCategoryList()) {
+        JPanel productPanel = new JPanel(new GridBagLayout());
+        JLabel label = new JLabel(c.getCategoryName());
+        label.setForeground(Color.WHITE);
+        productPanel.add(label);
+        productPanel.setBackground(Color.BLUE);
+
+        // Let BoxLayout control height — no fixed preferred size
+        productPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+
+        categoryPanelWrapper.add(productPanel);
+        categoryPanelWrapper.add(Box.createRigidArea(new Dimension(0, 5))); // optional spacing
+
+    }
+        // Refresh the panel
+    categoryPanelWrapper.revalidate();
+    categoryPanelWrapper.repaint();
     }
 
     /**
@@ -28,30 +155,20 @@ public class SalePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         mainSalesWrapper = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         navigationWrapper = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
         mainFoodAndOrderWrapper = new javax.swing.JSplitPane();
         orderWrapper = new javax.swing.JPanel();
         foodWrapper = new javax.swing.JPanel();
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 197, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
+        categoryScrollPanel = new javax.swing.JScrollPane();
+        categoryPanelWrapper = new javax.swing.JPanel();
+        foodTableWrapper = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        jSplitPane1.setDividerLocation(80);
+        jSplitPane1.setDividerLocation(50);
         jSplitPane1.setDividerSize(0);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(0.2);
@@ -64,19 +181,19 @@ public class SalePage extends javax.swing.JFrame {
         navigationWrapper.setLayout(navigationWrapperLayout);
         navigationWrapperLayout.setHorizontalGroup(
             navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1070, Short.MAX_VALUE)
+            .addGap(0, 935, Short.MAX_VALUE)
         );
         navigationWrapperLayout.setVerticalGroup(
             navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 84, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
 
         jSplitPane1.setLeftComponent(navigationWrapper);
 
-        jPanel3.setBackground(new java.awt.Color(255, 102, 102));
-
         mainFoodAndOrderWrapper.setDividerLocation(300);
         mainFoodAndOrderWrapper.setDividerSize(0);
+
+        orderWrapper.setBackground(new java.awt.Color(153, 153, 255));
 
         javax.swing.GroupLayout orderWrapperLayout = new javax.swing.GroupLayout(orderWrapper);
         orderWrapper.setLayout(orderWrapperLayout);
@@ -86,46 +203,55 @@ public class SalePage extends javax.swing.JFrame {
         );
         orderWrapperLayout.setVerticalGroup(
             orderWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
+            .addGap(0, 459, Short.MAX_VALUE)
         );
 
         mainFoodAndOrderWrapper.setLeftComponent(orderWrapper);
 
-        javax.swing.GroupLayout foodWrapperLayout = new javax.swing.GroupLayout(foodWrapper);
-        foodWrapper.setLayout(foodWrapperLayout);
-        foodWrapperLayout.setHorizontalGroup(
-            foodWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+        foodWrapper.setLayout(new java.awt.BorderLayout());
+
+        categoryScrollPanel.setMaximumSize(new java.awt.Dimension(32767, 300));
+
+        categoryPanelWrapper.setBackground(new java.awt.Color(255, 153, 153));
+        categoryPanelWrapper.setPreferredSize(new java.awt.Dimension(197, 300));
+        categoryPanelWrapper.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        categoryScrollPanel.setViewportView(categoryPanelWrapper);
+
+        foodWrapper.add(categoryScrollPanel, java.awt.BorderLayout.PAGE_START);
+
+        foodTableWrapper.setBackground(new java.awt.Color(255, 204, 204));
+        foodTableWrapper.setPreferredSize(new java.awt.Dimension(635, 200));
+
+        javax.swing.GroupLayout foodTableWrapperLayout = new javax.swing.GroupLayout(foodTableWrapper);
+        foodTableWrapper.setLayout(foodTableWrapperLayout);
+        foodTableWrapperLayout.setHorizontalGroup(
+            foodTableWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        foodWrapperLayout.setVerticalGroup(
-            foodWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
+        foodTableWrapperLayout.setVerticalGroup(
+            foodTableWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        foodWrapper.add(foodTableWrapper, java.awt.BorderLayout.CENTER);
 
         mainFoodAndOrderWrapper.setRightComponent(foodWrapper);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainFoodAndOrderWrapper, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainFoodAndOrderWrapper)
-        );
-
-        jSplitPane1.setRightComponent(jPanel3);
+        jSplitPane1.setRightComponent(mainFoodAndOrderWrapper);
 
         javax.swing.GroupLayout mainSalesWrapperLayout = new javax.swing.GroupLayout(mainSalesWrapper);
         mainSalesWrapper.setLayout(mainSalesWrapperLayout);
         mainSalesWrapperLayout.setHorizontalGroup(
             mainSalesWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)
+            .addGroup(mainSalesWrapperLayout.createSequentialGroup()
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 935, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         mainSalesWrapperLayout.setVerticalGroup(
             mainSalesWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+            .addGroup(mainSalesWrapperLayout.createSequentialGroup()
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getContentPane().add(mainSalesWrapper);
@@ -159,9 +285,10 @@ public class SalePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel categoryPanelWrapper;
+    private javax.swing.JScrollPane categoryScrollPanel;
+    private javax.swing.JPanel foodTableWrapper;
     private javax.swing.JPanel foodWrapper;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane mainFoodAndOrderWrapper;
     private javax.swing.JPanel mainSalesWrapper;
