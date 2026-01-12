@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package canteen_management_system.ui;
+package canteen_management_system.view;
 
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.CustomerController;
@@ -203,6 +203,7 @@ public class AdminPanel extends javax.swing.JFrame {
         welcomepage.setBackground(new java.awt.Color(201, 214, 222));
         welcomepage.setPreferredSize(new java.awt.Dimension(640, 350));
 
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
         jLabel2.setText("Welcome to Admin Panel");
 

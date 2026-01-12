@@ -5,7 +5,7 @@
 package canteen_management_system.controller;
 
 import canteen_management_system.model.UserModel;
-import canteen_management_system.systemData.UserData;
+import canteen_management_system.model.UserData;
 import java.util.LinkedList;
 
 /**

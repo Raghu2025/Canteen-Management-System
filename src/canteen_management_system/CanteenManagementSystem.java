@@ -5,7 +5,7 @@
 package canteen_management_system;
 
 import canteen_management_system.controller.CategoryController;
-import canteen_management_system.ui.Login;
+import canteen_management_system.view.Login;
 
 /**
  *

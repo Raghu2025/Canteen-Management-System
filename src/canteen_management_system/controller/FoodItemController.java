@@ -6,7 +6,7 @@ package canteen_management_system.controller;
 
 import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.FoodItemModel;
-import canteen_management_system.systemData.FoodItemData;
+import canteen_management_system.model.FoodItemData;
 import java.util.LinkedList;
 
 /**

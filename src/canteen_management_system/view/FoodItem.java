@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package canteen_management_system.ui;
+package canteen_management_system.view;
 
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.FoodItemController;
@@ -104,7 +104,6 @@ public class FoodItem extends javax.swing.JPanel {
 
         foodInput.setBackground(new java.awt.Color(201, 214, 222));
         foodInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        foodInput.setForeground(new java.awt.Color(0, 0, 0));
         foodInput.setPreferredSize(new java.awt.Dimension(71, 30));
         foodInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,7 +139,6 @@ public class FoodItem extends javax.swing.JPanel {
 
         priceInput.setBackground(new java.awt.Color(201, 214, 222));
         priceInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        priceInput.setForeground(new java.awt.Color(0, 0, 0));
         priceInput.setPreferredSize(new java.awt.Dimension(71, 30));
         priceInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,7 +159,6 @@ public class FoodItem extends javax.swing.JPanel {
 
         qualityInput.setBackground(new java.awt.Color(201, 214, 222));
         qualityInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        qualityInput.setForeground(new java.awt.Color(0, 0, 0));
         qualityInput.setPreferredSize(new java.awt.Dimension(71, 30));
         qualityInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

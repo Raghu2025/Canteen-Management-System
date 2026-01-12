@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package canteen_management_system.systemData;
+package canteen_management_system.model;
 
 import canteen_management_system.model.CustomerModel;
 import java.util.Iterator;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package canteen_management_system.ui;
+package canteen_management_system.view;
 
 import canteen_management_system.controller.UserController;
 import canteen_management_system.enums.Role;

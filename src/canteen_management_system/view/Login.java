@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package canteen_management_system.ui;
+package canteen_management_system.view;
 
 import javax.swing.JOptionPane;
 
@@ -69,6 +69,7 @@ public class Login extends javax.swing.JFrame {
 
         emailInput.setBackground(new java.awt.Color(201, 214, 222));
         emailInput.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        emailInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(201, 214, 222), 2, true));
         emailInput.setPreferredSize(new java.awt.Dimension(64, 30));
         emailInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
