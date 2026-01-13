@@ -10,6 +10,10 @@
             <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/view/AddCategoryForm.java</file>
             <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/view/userPanel.java</file>
             <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/controller/CategoryController.java</file>
+            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/model/OrderItemModel.java</file>
+            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/model/OrderModel.java</file>
+            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/controller/FoodItemController.java</file>
+            <file>file:/D:/Codes/Canteen%20Management%20System/src/canteen_management_system/controller/OrderController.java</file>
         </group>
     </open-files>
 </project-private>

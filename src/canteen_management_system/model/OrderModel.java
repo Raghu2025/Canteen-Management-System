@@ -4,7 +4,7 @@
  */
 package canteen_management_system.model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Date;
 
 /**
@@ -15,13 +15,14 @@ public class OrderModel {
     
     private int id;
     private CustomerModel customer;
-    private ArrayList<OrderItemModel> orderItems = new ArrayList();
+    private LinkedList<OrderItemModel> orderItems = new LinkedList<>();
     private double total;
     Date createdDate;
     
     public OrderModel(int id, CustomerModel customer, double total) {
         this.id = id;
         this.customer = customer;
+        this.total = total;
         this.createdDate = new Date();
     }
     
@@ -41,31 +42,68 @@ public class OrderModel {
         this.customer = customer;
     }
     
-    public ArrayList<OrderItemModel> getOrderItems() {
+    public LinkedList<OrderItemModel> getOrderItems() {
         return orderItems;
     }
     
-    public void setOrderItems(OrderItemModel order) {
-        int ifExistindex = -1;
+    // Enqueue - Add item to the end of the queue
+    public void enqueue(OrderItemModel order) {
+        int ifExistIndex = -1;
         for (int i = 0; i < this.orderItems.size(); i++) {
             if (order.getFoodItem().getId() == this.orderItems.get(i).getFoodItem().getId()) {
-                ifExistindex = i;
+                ifExistIndex = i;
                 break;
             }
         }
-        if (ifExistindex >= 0) {
-            this.orderItems.add(order);
+        if (ifExistIndex >= 0) {
+            this.orderItems.get(ifExistIndex).setQuantity(
+                this.orderItems.get(ifExistIndex).getQuantity() + 1
+            );
         } else {
-            this.orderItems.get(ifExistindex).setQuantity(1);
+            this.orderItems.addLast(order); // Add to end of queue
         }
         this.setTotal();
     }
     
+    // Dequeue - Remove and return item from the front of the queue
+    public OrderItemModel dequeue() {
+        if (this.orderItems.isEmpty()) {
+            return null;
+        }
+        OrderItemModel removed = this.orderItems.removeFirst(); // Remove from front of queue
+        this.setTotal();
+        return removed;
+    }
+    
+    // Peek - View the front item without removing it
+    public OrderItemModel peek() {
+        if (this.orderItems.isEmpty()) {
+            return null;
+        }
+        return this.orderItems.getFirst();
+    }
+    
+    // Check if queue is empty
+    public boolean isEmpty() {
+        return this.orderItems.isEmpty();
+    }
+    
+    // Get queue size
+    public int size() {
+        return this.orderItems.size();
+    }
+    
+    // Legacy method for backward compatibility
+    public void setOrderItems(OrderItemModel order) {
+        enqueue(order);
+    }
+    
     public boolean deleteLastItems() {
-        if (this.orderItems.size() == 0) {
+        if (this.orderItems.isEmpty()) {
             return false;
         }
-        this.orderItems.remove(this.orderItems.size() - 1);
+        this.orderItems.removeLast();
+        this.setTotal();
         return true;
     }
     
@@ -80,5 +118,4 @@ public class OrderModel {
         }
         this.total = tempTotal;
     }
-    
 }
