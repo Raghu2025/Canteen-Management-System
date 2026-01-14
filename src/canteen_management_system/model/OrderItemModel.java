@@ -51,5 +51,9 @@ public class OrderItemModel {
         this.quantity += quantity;
         return true;
     }
+    
+    public double getTotal(){
+        return this.getQuantity() * this.getFoodItem().getPrice();
+    }
 
 }

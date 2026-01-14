@@ -6,14 +6,24 @@ package canteen_management_system.view;
 
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.FoodItemController;
+import canteen_management_system.controller.OrderController;
 import canteen_management_system.model.CategoryModel;
+import canteen_management_system.model.FoodItemModel;
+import canteen_management_system.model.OrderItemModel;
+import canteen_management_system.model.OrderModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +34,9 @@ public class SalePage extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SalePage.class.getName());
     private CategoryController categoryController = new CategoryController();
     private FoodItemController foodController = new FoodItemController();
+    private OrderController orderController = new OrderController();
+
+    private String selectedCategoryFilter = null;
 
     /**
      * Creates new form SalePage
@@ -39,39 +52,80 @@ public class SalePage extends javax.swing.JFrame {
         this.foodController.addFoodItem("Chips", CategoryController.findByName("Snacks"), 1.5, 100, "Crispy potato chips");
         this.foodController.addFoodItem("Burger", CategoryController.findByName("Fast Food"), 5.0, 30, "Delicious beef burger");
         this.initComponents();
+        this.orderController.addOrder();
 
+        //Initialize category
         this.setCategoryList();
         // Initialize food table with all items
-        setFoodItemTable("");
+        this.initFoodItem();
+        // Add search functionality to search field
+        this.initSearchInput();
+        
+    }
 
-// Add search functionality to search field
-        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+    private void initSearchInput() {
+        foodSearchInput.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (jTextField1.getText().equals("Search")) {
-                    jTextField1.setText("");
+                if (foodSearchInput.getText().equals("Search")) {
+                    foodSearchInput.setText("");
                 }
             }
 
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (jTextField1.getText().trim().isEmpty()) {
-                    jTextField1.setText("Search");
+                if (foodSearchInput.getText().trim().isEmpty()) {
+                    foodSearchInput.setText("Search");
                 }
             }
         });
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        foodSearchInput.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                setFoodItemTable(jTextField1.getText());
+                setFoodItemTable(foodSearchInput.getText());
             }
         });
     }
 
-// Add these instance variables at the top of the class
-    private String selectedCategoryFilter = null; // null means show all categories
+    private void initFoodItem() {
+        setFoodItemTable("");
+        foodTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && !e.isConsumed()) {
+                    e.consume();
+                    int row = foodTable.rowAtPoint(e.getPoint());
+                    int foodIds = (int) foodTable.getValueAt(row, 0);
+                    FoodItemModel foods = foodController.findById(row);
+                    OrderModel order = OrderController.peek();
+                    String mess = orderController.addOrderItem(order.getId(), foodIds, 1);
+                    
+                    if (mess == null || mess.trim().isEmpty()) {
+                        // Success message
+                        JOptionPane.showMessageDialog(
+                                mainSalesWrapper,
+                                "Item added successfully!",
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                        refreshOrderTable();
+                    } else {
+                        // Warning or error message
+                        JOptionPane.showMessageDialog(
+                                mainSalesWrapper,
+                                mess,
+                                "Warning",
+                                JOptionPane.WARNING_MESSAGE
+                        );
+            }
+                }
+            }
+        });
+    }
+    
 
+// Add these instance variables at the top of the class
 // Method to populate food items table based on category filter and search
     public void setFoodItemTable(String searchText) {
         // Define table columns
@@ -117,10 +171,10 @@ public class SalePage extends javax.swing.JFrame {
         }
 
         // Update table
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(data, columns) {
+        foodTable.setModel(new javax.swing.table.DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make table read-only
+                return false;
             }
         });
     }
@@ -147,7 +201,7 @@ public class SalePage extends javax.swing.JFrame {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     selectedCategoryFilter = c.getCategoryName();
-                    setFoodItemTable(jTextField1.getText());
+                    setFoodItemTable(foodSearchInput.getText());
                     // Visual feedback - highlight selected category
                     resetCategoryColors();
                     productPanel.setBackground(Color.DARK_GRAY);
@@ -195,7 +249,29 @@ public class SalePage extends javax.swing.JFrame {
     public void clearCategoryFilter() {
         selectedCategoryFilter = null;
         resetCategoryColors();
-        setFoodItemTable(jTextField1.getText());
+        setFoodItemTable(foodSearchInput.getText());
+    }
+
+    public void refreshOrderTable() {
+        String[] columns = {"Order ID", "Name", "Quantity", "Price"};
+        DefaultTableModel model = new DefaultTableModel(columns, 0);
+        OrderModel order = OrderController.peek();
+        totalAmountLabel.setText(Double.toString(order.getTotal()));
+        LinkedList<OrderItemModel> orderItems = order.getOrderItems();
+        for (int i = 0; i < order.size(); i++) {
+            OrderItemModel orderI = orderItems.get(i);
+
+            Object[] rowData = {
+                orderI.getId(),
+                orderI.getFoodItem().getFoodItemName(),
+                orderI.getQuantity(),
+                orderI.getTotal()
+            };
+
+            model.addRow(rowData);
+        }
+
+        orderTable.setModel(model);
     }
 
     /**
@@ -210,22 +286,24 @@ public class SalePage extends javax.swing.JFrame {
         mainSalesWrapper = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         navigationWrapper = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        foodSearchInput = new javax.swing.JTextField();
+        filterClearButton = new javax.swing.JButton();
+        removeOrder = new javax.swing.JButton();
         mainFoodAndOrderWrapper = new javax.swing.JSplitPane();
         orderWrapper = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        orderTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        totalAmountLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        payment = new javax.swing.JButton();
         foodWrapper = new javax.swing.JPanel();
         categoryScrollPanel = new javax.swing.JScrollPane();
         categoryPanelWrapper = new javax.swing.JPanel();
         foodTableWrapper = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        foodTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
@@ -239,16 +317,28 @@ public class SalePage extends javax.swing.JFrame {
         navigationWrapper.setBackground(new java.awt.Color(204, 204, 255));
         navigationWrapper.setPreferredSize(new java.awt.Dimension(200, 232));
 
-        jTextField1.setText("Search");
-        jTextField1.setPreferredSize(new java.awt.Dimension(73, 30));
+        foodSearchInput.setText("Search");
+        foodSearchInput.setPreferredSize(new java.awt.Dimension(73, 30));
 
-        jButton1.setBackground(new java.awt.Color(255, 0, 51));
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Clear Filter");
-        jButton1.setPreferredSize(new java.awt.Dimension(75, 30));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        filterClearButton.setBackground(new java.awt.Color(255, 0, 51));
+        filterClearButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        filterClearButton.setForeground(new java.awt.Color(255, 255, 255));
+        filterClearButton.setText("Clear Filter");
+        filterClearButton.setPreferredSize(new java.awt.Dimension(75, 30));
+        filterClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                filterClearButtonActionPerformed(evt);
+            }
+        });
+
+        removeOrder.setBackground(new java.awt.Color(255, 0, 51));
+        removeOrder.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        removeOrder.setForeground(new java.awt.Color(255, 255, 255));
+        removeOrder.setText("Remove Order");
+        removeOrder.setPreferredSize(new java.awt.Dimension(111, 30));
+        removeOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeOrderActionPerformed(evt);
             }
         });
 
@@ -257,19 +347,22 @@ public class SalePage extends javax.swing.JFrame {
         navigationWrapperLayout.setHorizontalGroup(
             navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navigationWrapperLayout.createSequentialGroup()
-                .addContainerGap(551, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(removeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 421, Short.MAX_VALUE)
+                .addComponent(foodSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filterClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
         navigationWrapperLayout.setVerticalGroup(
             navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navigationWrapperLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(foodSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filterClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -279,9 +372,11 @@ public class SalePage extends javax.swing.JFrame {
         mainFoodAndOrderWrapper.setDividerSize(0);
 
         orderWrapper.setBackground(new java.awt.Color(153, 153, 255));
+        orderWrapper.setPreferredSize(new java.awt.Dimension(452, 600));
         orderWrapper.setLayout(new java.awt.BorderLayout());
 
         jLabel1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Orders");
         jLabel1.setToolTipText("");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -290,7 +385,10 @@ public class SalePage extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(38, 20));
         orderWrapper.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(32767, 300));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 400));
+
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -301,33 +399,52 @@ public class SalePage extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(orderTable);
 
         orderWrapper.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        jLabel2.setText("0.0");
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 75));
 
+        totalAmountLabel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        totalAmountLabel.setText("0.0");
+
+        jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel3.setText("Total Amount");
+
+        payment.setBackground(new java.awt.Color(0, 204, 51));
+        payment.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        payment.setForeground(new java.awt.Color(255, 255, 255));
+        payment.setText("Proceed to Payment");
+        payment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(totalAmountLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(payment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(103, 103, 103)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(totalAmountLabel))
+                .addGap(18, 18, 18)
+                .addComponent(payment)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         orderWrapper.add(jPanel1, java.awt.BorderLayout.PAGE_END);
@@ -349,7 +466,7 @@ public class SalePage extends javax.swing.JFrame {
         foodTableWrapper.setBackground(new java.awt.Color(255, 204, 204));
         foodTableWrapper.setPreferredSize(new java.awt.Dimension(635, 200));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        foodTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -360,17 +477,17 @@ public class SalePage extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(foodTable);
 
         javax.swing.GroupLayout foodTableWrapperLayout = new javax.swing.GroupLayout(foodTableWrapper);
         foodTableWrapper.setLayout(foodTableWrapperLayout);
         foodTableWrapperLayout.setHorizontalGroup(
             foodTableWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
         );
         foodTableWrapperLayout.setVerticalGroup(
             foodTableWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
         );
 
         foodWrapper.add(foodTableWrapper, java.awt.BorderLayout.CENTER);
@@ -395,9 +512,53 @@ public class SalePage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void filterClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterClearButtonActionPerformed
         this.clearCategoryFilter();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_filterClearButtonActionPerformed
+
+    private void removeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOrderActionPerformed
+        int selectedRow = orderTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a row first.");
+            return;
+        }
+
+        int orderItemId = (int) orderTable.getValueAt(selectedRow, 0);
+        String item = (String) orderTable.getValueAt(selectedRow, 1);
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete the item: " + item + "?",
+                "Delete Confirmation",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+        boolean removed = orderController.peek().removeOrderItemById(orderItemId);
+        if (removed) {
+            System.out.println("Item removed successfully.");
+            refreshOrderTable();
+        } else {
+            System.out.println("Item not found.");
+        }
+    }//GEN-LAST:event_removeOrderActionPerformed
+
+    private void paymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentActionPerformed
+        OrderModel order = OrderController.peek();
+        int size = order.getOrderItems().size();
+        if (size == 0) {
+            JOptionPane.showMessageDialog(
+                    this, // parent component (your JFrame or JPanel)
+                    "Cannot delete item. The order is empty!",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+        
+    }//GEN-LAST:event_paymentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -427,22 +588,24 @@ public class SalePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel categoryPanelWrapper;
     private javax.swing.JScrollPane categoryScrollPanel;
+    private javax.swing.JButton filterClearButton;
+    private javax.swing.JTextField foodSearchInput;
+    private javax.swing.JTable foodTable;
     private javax.swing.JPanel foodTableWrapper;
     private javax.swing.JPanel foodWrapper;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JSplitPane mainFoodAndOrderWrapper;
     private javax.swing.JPanel mainSalesWrapper;
     private javax.swing.JPanel navigationWrapper;
+    private javax.swing.JTable orderTable;
     private javax.swing.JPanel orderWrapper;
+    private javax.swing.JButton payment;
+    private javax.swing.JButton removeOrder;
+    private javax.swing.JLabel totalAmountLabel;
     // End of variables declaration//GEN-END:variables
 }
