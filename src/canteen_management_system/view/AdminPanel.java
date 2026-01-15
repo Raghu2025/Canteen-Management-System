@@ -8,6 +8,7 @@ import canteen_management_system.CanteenManagementSystem;
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.CustomerController;
 import canteen_management_system.controller.FoodItemController;
+import canteen_management_system.controller.OrderController;
 import canteen_management_system.controller.UserController;
 import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.CustomerModel;
@@ -15,7 +16,6 @@ import canteen_management_system.model.FoodItemModel;
 import canteen_management_system.model.UserModel;
 import java.awt.CardLayout;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Comparator;
 import javax.swing.JDialog;
@@ -58,6 +58,13 @@ public class AdminPanel extends javax.swing.JFrame {
         DefaultTableModel categorySorter = (DefaultTableModel) categoryTable.getModel();
         TableRowSorter<DefaultTableModel> sorter4 = new TableRowSorter<>(categorySorter);
         categoryTable.setRowSorter(sorter4);
+        
+        this.dCatgoryTotal.setText(Integer.toString(categoryController.getAllCategoryList().size()));
+        this.dUserTotal.setText(Integer.toString(userController.getAllUser().size()));
+        this.dFoodTotal.setText(Integer.toString(foodItemController.getAllFoodItemList().size()));
+        this.dCustomerTotal.setText(Integer.toString(customerController.getAllCustomer().size()));
+        this.dOrderTotal.setText(Integer.toString(new OrderController().size()));
+
 
     }
 
@@ -264,9 +271,27 @@ public class AdminPanel extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         adminPanelWrapper = new javax.swing.JPanel();
         welcomepage = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        dCatgoryTotal = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        dFoodTotal = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        dUserTotal = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        dCustomerTotal = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        dOrderTotal = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         categoryPanel = new javax.swing.JPanel();
         editCatgory = new javax.swing.JButton();
@@ -320,12 +345,223 @@ public class AdminPanel extends javax.swing.JFrame {
         welcomepage.setPreferredSize(new java.awt.Dimension(640, 350));
         welcomepage.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(209, 220, 226));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1304, 200));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 40, 5));
+
+        jPanel3.setBackground(new java.awt.Color(101, 158, 167));
+        jPanel3.setPreferredSize(new java.awt.Dimension(200, 100));
+
+        jLabel1.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Total Category");
+
+        dCatgoryTotal.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        dCatgoryTotal.setForeground(new java.awt.Color(255, 255, 255));
+        dCatgoryTotal.setText("0");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(72, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dCatgoryTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(dCatgoryTotal)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel3);
+
+        jPanel4.setBackground(new java.awt.Color(101, 158, 167));
+        jPanel4.setPreferredSize(new java.awt.Dimension(200, 100));
+
+        jLabel4.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Total Food Item");
+
+        dFoodTotal.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        dFoodTotal.setForeground(new java.awt.Color(255, 255, 255));
+        dFoodTotal.setText("0");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addContainerGap(63, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dFoodTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(dFoodTotal)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel4);
+
+        jPanel5.setBackground(new java.awt.Color(101, 158, 167));
+        jPanel5.setPreferredSize(new java.awt.Dimension(200, 100));
+
+        jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Total User");
+
+        dUserTotal.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        dUserTotal.setForeground(new java.awt.Color(255, 255, 255));
+        dUserTotal.setText("0");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(85, Short.MAX_VALUE)
+                .addComponent(dUserTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(dUserTotal)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel5);
+
+        jPanel6.setBackground(new java.awt.Color(101, 158, 167));
+        jPanel6.setPreferredSize(new java.awt.Dimension(200, 100));
+
+        jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Total Customer");
+
+        dCustomerTotal.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        dCustomerTotal.setForeground(new java.awt.Color(255, 255, 255));
+        dCustomerTotal.setText("0");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addContainerGap(66, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dCustomerTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(dCustomerTotal)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel6);
+
+        jPanel7.setBackground(new java.awt.Color(101, 158, 167));
+        jPanel7.setPreferredSize(new java.awt.Dimension(200, 100));
+
+        jLabel10.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Total Order");
+
+        dOrderTotal.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        dOrderTotal.setForeground(new java.awt.Color(255, 255, 255));
+        dOrderTotal.setText("0");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addContainerGap(101, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dOrderTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(dOrderTotal)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel7);
+
+        welcomepage.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setBackground(new java.awt.Color(209, 220, 226));
+
+        jLabel2.setBackground(new java.awt.Color(209, 220, 226));
         jLabel2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Welcome to Admin Panel");
-        welcomepage.add(jLabel2, java.awt.BorderLayout.CENTER);
+        jLabel2.setPreferredSize(new java.awt.Dimension(403, 100));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1304, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        welcomepage.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         adminPanelWrapper.add(welcomepage, "welComePage");
 
@@ -397,7 +633,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(categoryPanelLayout.createSequentialGroup()
                         .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 778, Short.MAX_VALUE)
                         .addComponent(editCatgory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteCategory)
@@ -488,7 +724,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(foodItemPanelLayout.createSequentialGroup()
                         .addComponent(foodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 778, Short.MAX_VALUE)
                         .addComponent(editFood)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteFood)
@@ -579,7 +815,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(userPanelLayout.createSequentialGroup()
                         .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 778, Short.MAX_VALUE)
                         .addComponent(editUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteUser)
@@ -674,7 +910,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(customerPanelLayout.createSequentialGroup()
                         .addComponent(customerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 778, Short.MAX_VALUE)
                         .addComponent(editCustomer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteCustomer)
@@ -815,7 +1051,7 @@ public class AdminPanel extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
+            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 1304, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1150,6 +1386,11 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JPanel customerPanel;
     private javax.swing.JTextField customerSearch;
     private javax.swing.JTable customerTable;
+    private javax.swing.JLabel dCatgoryTotal;
+    private javax.swing.JLabel dCustomerTotal;
+    private javax.swing.JLabel dFoodTotal;
+    private javax.swing.JLabel dOrderTotal;
+    private javax.swing.JLabel dUserTotal;
     private javax.swing.JButton deleteCategory;
     private javax.swing.JButton deleteCustomer;
     private javax.swing.JButton deleteFood;
@@ -1162,7 +1403,19 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JPanel foodItemPanel;
     private javax.swing.JTextField foodSearch;
     private javax.swing.JTable foodTable;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

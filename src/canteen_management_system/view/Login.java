@@ -7,6 +7,11 @@ package canteen_management_system.view;
 import canteen_management_system.controller.UserController;
 import canteen_management_system.enums.Role;
 import canteen_management_system.model.UserModel;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +27,33 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        setBackgroundImage();
+    }
+
+    private void setBackgroundImage() {
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource("img1.jpg"));
+            Image image = icon.getImage();
+            JLabel background = new JLabel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            background.setBounds(0, 0, getWidth(), getHeight());
+            getLayeredPane().add(background, Integer.valueOf(Integer.MIN_VALUE));
+            addComponentListener(new java.awt.event.ComponentAdapter() {
+                @Override
+                public void componentResized(java.awt.event.ComponentEvent evt) {
+                    background.setSize(getWidth(), getHeight());
+                }
+            });
+            ((JComponent) getContentPane()).setOpaque(false);
+            loginMainWrapper.setOpaque(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

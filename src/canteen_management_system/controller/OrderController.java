@@ -63,7 +63,7 @@ public class OrderController {
         return removed;
     }
 
-    private static int size() {
+    public static int size() {
         return top + 1;
     }
 

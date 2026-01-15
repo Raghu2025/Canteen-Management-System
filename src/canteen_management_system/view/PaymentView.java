@@ -178,7 +178,9 @@ public class PaymentView extends javax.swing.JPanel {
                 CustomerModel customer = customerController.findByName(selectedName);
                 if (customer != null) {
                     customerBalanceLabel.setText(Double.toString(customer.getBalance()));
+                    selectedCustomer = customer;
                 }
+                
             } else {
                 customerBalanceLabel.setText("0.00");
             }
@@ -449,6 +451,11 @@ public class PaymentView extends javax.swing.JPanel {
         paymentSuccess = true;
         // Clear form
         clearForm();
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose(); // closes the JDialog
+        }
+        
     }
 
     private void searchCustomerById() {
