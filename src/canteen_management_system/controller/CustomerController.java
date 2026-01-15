@@ -19,6 +19,13 @@ public class CustomerController {
         CustomerData.addCustomer(new CustomerModel(newId, fullName, balance));
         return "Successfully added";
     }
+    
+    public CustomerModel addCustomer(String fullName,String phone) {
+        int newId = CustomerData.getAllCustomer().size() + 1;
+        CustomerModel cus = new CustomerModel(newId, fullName, phone);
+        CustomerData.addCustomer(cus);
+        return cus;
+    }
 
     public LinkedList<CustomerModel> getAllCustomer() {
         return CustomerData.getAllCustomer();

@@ -14,10 +14,14 @@ import canteen_management_system.model.CustomerModel;
 import canteen_management_system.model.FoodItemModel;
 import canteen_management_system.model.UserModel;
 import java.awt.CardLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -36,6 +40,26 @@ public class AdminPanel extends javax.swing.JFrame {
      */
     public AdminPanel() {
         initComponents();
+        
+//        DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
+//        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+//        categoryTable.setRowSorter(sorter);
+        
+        JTableHeader header = categoryTable.getTableHeader();
+        header.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked
+            (MouseEvent e) {
+        int col = categoryTable.columnAtPoint(e.getPoint());
+                System.out.println("Header clicked: column " + col);
+
+                // Call your custom sort here
+                customSortColumn(col);
+            }
+        }
+        );
+        
+
 
         this.categoryController.addCategory("Drinks", "");
         this.categoryController.addCategory("Snacks", "");
@@ -82,13 +106,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 Role.ADMIN.toString()
         );
 
-        this.userController.addUser(
-                "Alice Brown",
-                "alice@example.com",
-                "alice123",
-                "7778889999",
-                Role.SALES_PERSON.toString()
-        );
+        this.userController.addUser("Alice Brown","alice@example.com","alice123","7778889999",Role.SALES_PERSON.toString());
 
         this.customerController.addCustomer("John Doe", 500);
         this.customerController.addCustomer("Alice Smith", 1200);
@@ -97,6 +115,38 @@ public class AdminPanel extends javax.swing.JFrame {
         this.customerController.addCustomer("David Wilson", 0);
 
     }
+    
+    private void customSortColumn(int columnIndex) {
+    DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
+
+    int rowCount = model.getRowCount();
+    Object[][] data = new Object[rowCount][model.getColumnCount()];
+    for (int i = 0; i < rowCount; i++) {
+        for (int j = 0; j < model.getColumnCount(); j++) {
+            data[i][j] = model.getValueAt(i, j);
+        }
+    }
+
+    // Example: bubble sort on this column
+    for (int i = 0; i < data.length - 1; i++) {
+        for (int j = 0; j < data.length - 1 - i; j++) {
+            Comparable o1 = (Comparable) data[j][columnIndex];
+            Comparable o2 = (Comparable) data[j + 1][columnIndex];
+            if (o1.compareTo(o2) > 0) { // ascending
+                Object[] temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+
+    // Clear and refill table
+    model.setRowCount(0);
+    for (Object[] row : data) {
+        model.addRow(row);
+    }
+}
+
 
     private void refreshCategoryTable() {
         int index = 1;

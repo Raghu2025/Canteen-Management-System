@@ -19,6 +19,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -558,6 +559,19 @@ public class SalePage extends javax.swing.JFrame {
             return;
         }
         
+        PaymentView payment = new PaymentView(order);
+        JDialog paymentDailog = new JDialog(this, "Update Category", true);
+        paymentDailog.setContentPane(payment);
+        paymentDailog.pack();
+        paymentDailog.setVisible(true);
+        System.out.println("after" + payment.isPaymentSuccess());
+        if(payment.isPaymentSuccess()) {
+            orderController.addOrder();
+            refreshOrderTable();
+            clearCategoryFilter();
+            
+        }
+
     }//GEN-LAST:event_paymentActionPerformed
 
     /**

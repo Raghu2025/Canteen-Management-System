@@ -18,9 +18,7 @@ public class OrderModel {
     private double total = 0;
     Date createdDate;
     private String paymentMethod;
-
     private String orderStatus;
-
     private Date paidDate;
 
     public OrderModel(int id) {
@@ -165,4 +163,8 @@ public class OrderModel {
         return paymentMethod;
     }
 
+    public void markAsPaid() {
+        this.paidDate = new Date();
+        this.orderStatus = "PAID";
+    }
 }

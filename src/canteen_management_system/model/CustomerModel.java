@@ -22,6 +22,12 @@ public class CustomerModel {
         this.balance = balance;
     }
 
+    public CustomerModel(int guestId,String fullName, String phone) {
+        this.id = id;
+        this.fullName = fullName;
+        this.contactNumber = phone;
+    }
+
     public CustomerModel(int id, String name) {
         this.fullName = name;
         this.contactNumber = null;
