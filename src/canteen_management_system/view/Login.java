@@ -4,6 +4,9 @@
  */
 package canteen_management_system.view;
 
+import canteen_management_system.controller.UserController;
+import canteen_management_system.enums.Role;
+import canteen_management_system.model.UserModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,8 +14,8 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class Login extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
+
+    private UserController userController = new UserController();
 
     /**
      * Creates new form Login
@@ -186,22 +189,52 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
 
-        String email = this.emailInput.getText();
-        String password = new String(this.passwordInput.getPassword());
-        String message = null;
-        
-        if(email == null || email.isBlank()){
-            message = "Email field cannot be empty";
-        } else if(password == null || password.isBlank()){
-            message = "Password field cannot be empty";
-        } else {
+        String email = emailInput.getText().trim();
+        String password = new String(passwordInput.getPassword()).trim();
+        if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Email field cannot be empty",
+                    "Input Warning",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
-        JOptionPane.showMessageDialog(
-        this.rootPane,
-        message,
-        "Input Warning",
-        JOptionPane.WARNING_MESSAGE);
+        if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Password field cannot be empty",
+                    "Input Warning",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+        
+        UserModel user = userController.login(email, password);
+        if (user == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Email or password is incorrect",
+                    "Login Failed",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        } else {
+            System.out.println("user.getRole(): " + user.getRole() + " | ADMIN: " + Role.ADMIN.toString());
+            if (user.getRole().equals(Role.ADMIN.toString())) {
+                AdminPanel admin = new AdminPanel();
+                admin.setVisible(true);
+                admin.setLocationRelativeTo(null);
+            } else if (user.getRole().equals(Role.SALES_PERSON.toString())) {
+                SalePage salePage = new SalePage();
+                salePage.setVisible(true);
+                salePage.setLocationRelativeTo(null);
+            } else {
+                System.out.println("Unknown role: " + user.getRole());
+            }
+              this.dispose();
+        }
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
@@ -225,7 +258,7 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+//            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

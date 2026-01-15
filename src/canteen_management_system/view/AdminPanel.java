@@ -4,23 +4,24 @@
  */
 package canteen_management_system.view;
 
+import canteen_management_system.CanteenManagementSystem;
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.CustomerController;
 import canteen_management_system.controller.FoodItemController;
 import canteen_management_system.controller.UserController;
-import canteen_management_system.enums.Role;
 import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.CustomerModel;
 import canteen_management_system.model.FoodItemModel;
 import canteen_management_system.model.UserModel;
 import java.awt.CardLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.Comparator;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -40,159 +41,220 @@ public class AdminPanel extends javax.swing.JFrame {
      */
     public AdminPanel() {
         initComponents();
+        CanteenManagementSystem.addDummyData();
+
+        DefaultTableModel customerSort = (DefaultTableModel) customerTable.getModel();
+        TableRowSorter<DefaultTableModel> sorter1 = new TableRowSorter<>(customerSort);
+        customerTable.setRowSorter(sorter1);
         
-//        DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
-//        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-//        categoryTable.setRowSorter(sorter);
+        DefaultTableModel userSorter = (DefaultTableModel) userTable.getModel();
+        TableRowSorter<DefaultTableModel> sorter2 = new TableRowSorter<>(userSorter);
+        userTable.setRowSorter(sorter2);
         
-        JTableHeader header = categoryTable.getTableHeader();
-        header.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked
-            (MouseEvent e) {
-        int col = categoryTable.columnAtPoint(e.getPoint());
-                System.out.println("Header clicked: column " + col);
-
-                // Call your custom sort here
-                customSortColumn(col);
-            }
-        }
-        );
+        DefaultTableModel foodSorter = (DefaultTableModel) foodTable.getModel();
+        TableRowSorter<DefaultTableModel> sorter3 = new TableRowSorter<>(foodSorter);
+        foodTable.setRowSorter(sorter3);
         
-
-
-        this.categoryController.addCategory("Drinks", "");
-        this.categoryController.addCategory("Snacks", "");
-        this.categoryController.addCategory("Fast Food", "");
-        this.categoryController.addCategory("Desserts", "");
-        this.categoryController.addCategory("Fruits", "");
-
-        this.foodItemController.addFoodItem("Coca Cola", this.categoryController.getAllCategoryList().get(0), 1.50, 50, "Chilled soft drink");
-        this.foodItemController.addFoodItem("Potato Chips", this.categoryController.getAllCategoryList().get(1), 2.00, 40, "Crispy salted chips");
-        this.foodItemController.addFoodItem("Burger", this.categoryController.getAllCategoryList().get(2), 5.99, 30, "Beef burger with cheese");
-        this.foodItemController.addFoodItem("Chocolate Cake", this.categoryController.getAllCategoryList().get(3), 4.50, 20, "Rich chocolate dessert");
-        this.foodItemController.addFoodItem("Apple", this.categoryController.getAllCategoryList().get(4), 0.80, 100, "Fresh red apples");
-
-        // Add sample users
-        this.userController.addUser(
-                "Admin User",
-                "admin@example.com",
-                "admin123",
-                "1234567890",
-                Role.ADMIN.toString()
-        );
-
-        this.userController.addUser(
-                "John Doe",
-                "john@example.com",
-                "john123",
-                "0987654321",
-                Role.SALES_PERSON.toString()
-        );
-
-        this.userController.addUser(
-                "Jane Smith",
-                "jane@example.com",
-                "jane123",
-                "1112223333",
-                Role.SALES_PERSON.toString()
-        );
-
-        this.userController.addUser(
-                "Manager Mike",
-                "mike@example.com",
-                "mike123",
-                "4445556666",
-                Role.ADMIN.toString()
-        );
-
-        this.userController.addUser("Alice Brown","alice@example.com","alice123","7778889999",Role.SALES_PERSON.toString());
-
-        this.customerController.addCustomer("John Doe", 500);
-        this.customerController.addCustomer("Alice Smith", 1200);
-        this.customerController.addCustomer("Michael Brown", 300);
-        this.customerController.addCustomer("Sophia Johnson", 750);
-        this.customerController.addCustomer("David Wilson", 0);
+        DefaultTableModel categorySorter = (DefaultTableModel) categoryTable.getModel();
+        TableRowSorter<DefaultTableModel> sorter4 = new TableRowSorter<>(categorySorter);
+        categoryTable.setRowSorter(sorter4);
 
     }
-    
-    private void customSortColumn(int columnIndex) {
-    DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
 
-    int rowCount = model.getRowCount();
-    Object[][] data = new Object[rowCount][model.getColumnCount()];
-    for (int i = 0; i < rowCount; i++) {
-        for (int j = 0; j < model.getColumnCount(); j++) {
-            data[i][j] = model.getValueAt(i, j);
-        }
-    }
-
-    // Example: bubble sort on this column
-    for (int i = 0; i < data.length - 1; i++) {
-        for (int j = 0; j < data.length - 1 - i; j++) {
-            Comparable o1 = (Comparable) data[j][columnIndex];
-            Comparable o2 = (Comparable) data[j + 1][columnIndex];
-            if (o1.compareTo(o2) > 0) { // ascending
-                Object[] temp = data[j];
-                data[j] = data[j + 1];
-                data[j + 1] = temp;
-            }
-        }
-    }
-
-    // Clear and refill table
-    model.setRowCount(0);
-    for (Object[] row : data) {
-        model.addRow(row);
-    }
-}
-
-
-    private void refreshCategoryTable() {
-        int index = 1;
+    private void refreshCategoryTable(String searchText) {
         DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
         model.setRowCount(0);
-        for (CategoryModel c : categoryController.getAllCategoryList()) {
-            Object[] row = {index++, c.getId(), c.getCategoryName(), c.getDescription()};
-            model.addRow(row);
+
+        // Copy list to avoid mutating controller data
+       List<CategoryModel> categories = new ArrayList<>(categoryController.getAllCategoryList());
+
+
+        // Sort by category name (required for binary search)
+        categories.sort(Comparator.comparing(
+                CategoryModel::getCategoryName,
+                String.CASE_INSENSITIVE_ORDER
+        ));
+
+        // Show all if search is empty
+        if (searchText == null || searchText.isBlank()) {
+            fillTable(model, categories);
+            return;
+        }
+
+        searchText = searchText.trim();
+
+        int index = binarySearchByName(categories, searchText);
+
+        if (index == -1) {
+            // No exact match → show nothing (or show all if you prefer)
+            return;
+        }
+
+        // Collect all matching entries (partial match)
+        int left = index;
+        int right = index;
+
+        while (left - 1 >= 0
+                && categories.get(left - 1).getCategoryName()
+                        .toLowerCase().contains(searchText.toLowerCase())) {
+            left--;
+        }
+
+        while (right + 1 < categories.size()
+                && categories.get(right + 1).getCategoryName()
+                        .toLowerCase().contains(searchText.toLowerCase())) {
+            right++;
+        }
+
+        int serial = 1;
+        for (int i = left; i <= right; i++) {
+            CategoryModel c = categories.get(i);
+            model.addRow(new Object[]{
+                serial++, c.getId(), c.getCategoryName(), c.getDescription()
+            });
         }
     }
 
-    private void refreshFoodTable() {
+    private void fillTable(DefaultTableModel model, List<CategoryModel> categories) {
+        for (int i = 0; i < categories.size(); i++) {
+            CategoryModel c = categories.get(i);
+            model.addRow(new Object[]{
+                i + 1, c.getId(), c.getCategoryName(), c.getDescription()
+            });
+        }
+    }
+
+    private int binarySearchByName(List<CategoryModel> categories, String name) {
+        int left = 0;
+        int right = categories.size() - 1;
+        name = name.toLowerCase();
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            String midName = categories.get(mid)
+                    .getCategoryName()
+                    .toLowerCase();
+
+            if (midName.contains(name)) {
+                return mid;
+            } else if (midName.compareTo(name) < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+
+    private void refreshFoodTable(String searchText) {
         int index = 1;
         DefaultTableModel model = (DefaultTableModel) foodTable.getModel();
         model.setRowCount(0);
+
         for (FoodItemModel f : foodItemController.getAllFoodItemList()) {
-            Object[] row = {index++, f.getId(), f.getFoodItemName(),
-                f.getCategory().getCategoryName(), f.getDescription(),
-                f.getQuantity(), f.getPrice()};
-            model.addRow(row);
-        }
-    }
 
-    private void refreshUserTable() {
-        int index = 1;
-        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
-        model.setRowCount(0);
-        for (UserModel f : userController.getAllUser()) {
-            Object[] row = {index++, f.getId(), f.getFullName(),
-                f.getRole(), f.getEmail(),
-                f.getPhoneNumber()};
-            model.addRow(row);
-        }
-    }
+            if (searchText != null && !searchText.isBlank()) {
+                String search = searchText.toLowerCase();
 
-    private void refreshCustomerTable() {
-        int index = 1;
-        DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
-        model.setRowCount(0);
-        for (CustomerModel f : customerController.getAllCustomer()) {
-            Object[] row = {index++, f.getId(), f.getFullName(),
-                f.getContactNumber(), f.getBalance()
+                String name = f.getFoodItemName();
+                String desc = f.getDescription();
+                String id = String.valueOf(f.getId());
+                boolean match
+                        = (name != null && name.toLowerCase().contains(search))
+                        || (desc != null && desc.toLowerCase().contains(search))
+                        || id.contains(search);
+
+                if (!match) {
+                    continue;
+                }
+            }
+
+            Object[] row = {
+                index++,
+                f.getId(),
+                f.getFoodItemName(),
+                f.getCategory().getCategoryName(),
+                f.getDescription(),
+                f.getQuantity(),
+                f.getPrice()
             };
             model.addRow(row);
         }
     }
+
+    private void refreshUserTable(String searchText) {
+        int index = 1;
+        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+        model.setRowCount(0);
+        for (UserModel u : userController.getAllUser()) {
+            if (searchText != null && !searchText.isBlank()) {
+                String search = searchText.toLowerCase();
+
+                String name = u.getFullName();
+                String role = String.valueOf(u.getRole());
+                String email = u.getEmail();
+                String phone = u.getPhoneNumber();
+                String id = String.valueOf(u.getId());
+
+                boolean match
+                        = (name != null && name.toLowerCase().contains(search))
+                        || (role != null && role.toLowerCase().contains(search))
+                        || (email != null && email.toLowerCase().contains(search))
+                        || (phone != null && phone.toLowerCase().contains(search))
+                        || id.contains(search);
+
+                if (!match) {
+                    continue;
+                }
+            }
+
+            Object[] row = {
+                index++,
+                u.getId(),
+                u.getFullName(),
+                u.getRole(),
+                u.getEmail(),
+                u.getPhoneNumber()
+            };
+            model.addRow(row);
+        }
+    }
+
+    private void refreshCustomerTable(String searchText) {
+        int index = 1;
+        DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
+        model.setRowCount(0);
+        for (CustomerModel c : customerController.getAllCustomer()) {
+            if (searchText != null && !searchText.isBlank()) {
+                String search = searchText.toLowerCase();
+
+                String name = c.getFullName();
+                String contact = c.getContactNumber();
+                String id = String.valueOf(c.getId());
+                String balance = String.valueOf(c.getBalance());
+
+                boolean match
+                        = (name != null && name.toLowerCase().contains(search))
+                        || (contact != null && contact.toLowerCase().contains(search))
+                        || id.contains(search)
+                        || balance.contains(search);
+
+                if (!match) {
+                    continue;
+                }
+            }
+            Object[] row = {
+                index++,
+                c.getId(),
+                c.getFullName(),
+                c.getContactNumber(),
+                c.getBalance()
+            };
+            model.addRow(row);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -243,8 +305,12 @@ public class AdminPanel extends javax.swing.JFrame {
         customerMenu = new javax.swing.JMenu();
         listCustomerSubMenu = new javax.swing.JMenuItem();
         addCustomer = new javax.swing.JMenuItem();
+        navigate = new javax.swing.JMenu();
+        backToSalePage = new javax.swing.JMenuItem();
+        logOut = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         adminPanelWrapper.setBackground(new java.awt.Color(201, 214, 222));
         adminPanelWrapper.setPreferredSize(new java.awt.Dimension(640, 350));
@@ -252,29 +318,22 @@ public class AdminPanel extends javax.swing.JFrame {
 
         welcomepage.setBackground(new java.awt.Color(201, 214, 222));
         welcomepage.setPreferredSize(new java.awt.Dimension(640, 350));
+        welcomepage.setLayout(new java.awt.BorderLayout());
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Welcome to Admin Panel");
-
-        javax.swing.GroupLayout welcomepageLayout = new javax.swing.GroupLayout(welcomepage);
-        welcomepage.setLayout(welcomepageLayout);
-        welcomepageLayout.setHorizontalGroup(
-            welcomepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(welcomepageLayout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(142, Short.MAX_VALUE))
-        );
-        welcomepageLayout.setVerticalGroup(
-            welcomepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(welcomepageLayout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(jLabel2)
-                .addContainerGap(176, Short.MAX_VALUE))
-        );
+        welcomepage.add(jLabel2, java.awt.BorderLayout.CENTER);
 
         adminPanelWrapper.add(welcomepage, "welComePage");
+
+        categoryPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                categoryPanelKeyPressed(evt);
+            }
+        });
 
         editCatgory.setText("Edit");
         editCatgory.addActionListener(new java.awt.event.ActionListener() {
@@ -323,6 +382,11 @@ public class AdminPanel extends javax.swing.JFrame {
         }
 
         categorySearch.setToolTipText("Search by name and description");
+        categorySearch.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                categorySearchCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout categoryPanelLayout = new javax.swing.GroupLayout(categoryPanel);
         categoryPanel.setLayout(categoryPanelLayout);
@@ -333,7 +397,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(categoryPanelLayout.createSequentialGroup()
                         .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
                         .addComponent(editCatgory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteCategory)
@@ -353,7 +417,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -381,7 +445,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "S.N", "ID", "Name", "Category", "description", "quantity", "price"
+                "S.N", "ID", "Name", "Category", "Description", "Quantity", "Price"
             }
         ) {
             Class[] types = new Class [] {
@@ -403,14 +467,12 @@ public class AdminPanel extends javax.swing.JFrame {
         if (foodTable.getColumnModel().getColumnCount() > 0) {
             foodTable.getColumnModel().getColumn(0).setResizable(false);
             foodTable.getColumnModel().getColumn(0).setPreferredWidth(5);
-            foodTable.getColumnModel().getColumn(5).setHeaderValue("quantity");
-            foodTable.getColumnModel().getColumn(6).setHeaderValue("price");
         }
 
         foodSearch.setToolTipText("Search by name and description");
-        foodSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                foodSearchActionPerformed(evt);
+        foodSearch.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                foodSearchCaretUpdate(evt);
             }
         });
 
@@ -426,7 +488,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(foodItemPanelLayout.createSequentialGroup()
                         .addComponent(foodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
                         .addComponent(editFood)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteFood)
@@ -445,7 +507,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(foodSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -499,9 +561,9 @@ public class AdminPanel extends javax.swing.JFrame {
         }
 
         searchUser.setToolTipText("Search by name and description");
-        searchUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchUserActionPerformed(evt);
+        searchUser.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                searchUserCaretUpdate(evt);
             }
         });
 
@@ -517,7 +579,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(userPanelLayout.createSequentialGroup()
                         .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
                         .addComponent(editUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteUser)
@@ -536,7 +598,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -589,6 +651,11 @@ public class AdminPanel extends javax.swing.JFrame {
         }
 
         customerSearch.setToolTipText("Search by name and description");
+        customerSearch.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                customerSearchCaretUpdate(evt);
+            }
+        });
         customerSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 customerSearchActionPerformed(evt);
@@ -607,7 +674,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(customerPanelLayout.createSequentialGroup()
                         .addComponent(customerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 754, Short.MAX_VALUE)
                         .addComponent(editCustomer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteCustomer)
@@ -626,7 +693,7 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(customerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -722,13 +789,33 @@ public class AdminPanel extends javax.swing.JFrame {
 
         adminPanelMenu.add(customerMenu);
 
+        navigate.setText("Navigate");
+
+        backToSalePage.setText("Sales page");
+        backToSalePage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToSalePageActionPerformed(evt);
+            }
+        });
+        navigate.add(backToSalePage);
+
+        logOut.setText("Log out");
+        logOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutActionPerformed(evt);
+            }
+        });
+        navigate.add(logOut);
+
+        adminPanelMenu.add(navigate);
+
         setJMenuBar(adminPanelMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
+            .addComponent(adminPanelWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -743,15 +830,16 @@ public class AdminPanel extends javax.swing.JFrame {
         JPanel categoryPanel = new AddCategoryForm();
         addCategory.setContentPane(categoryPanel);
         addCategory.pack();
+        addCategory.setLocationRelativeTo(null);
         addCategory.setVisible(true);
-        this.refreshCategoryTable();
+        this.refreshCategoryTable("");
     }//GEN-LAST:event_addCatgorySubMenuActionPerformed
 
     private void listCatgorySubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listCatgorySubMenuActionPerformed
         // TODO add your handling code here:
         CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
         cl.show(adminPanelWrapper, "categoryPanel");
-        this.refreshCategoryTable();
+        this.refreshCategoryTable("");
     }//GEN-LAST:event_listCatgorySubMenuActionPerformed
 
     private void editCatgoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCatgoryActionPerformed
@@ -766,8 +854,9 @@ public class AdminPanel extends javax.swing.JFrame {
         JPanel categoryPanel = new AddCategoryForm(categoryId);
         addCategory.setContentPane(categoryPanel);
         addCategory.pack();
+        addCategory.setLocationRelativeTo(null);
         addCategory.setVisible(true);
-        this.refreshCategoryTable();
+        this.refreshCategoryTable("");
     }//GEN-LAST:event_editCatgoryActionPerformed
 
     private void categoryViewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryViewItemActionPerformed
@@ -781,7 +870,7 @@ public class AdminPanel extends javax.swing.JFrame {
     private void viewFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewFoodSubMenuActionPerformed
         CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
         cl.show(adminPanelWrapper, "foodItemPanel");
-        this.refreshFoodTable();
+        this.refreshFoodTable("");
     }//GEN-LAST:event_viewFoodSubMenuActionPerformed
 
     private void addCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCustomerActionPerformed
@@ -790,8 +879,9 @@ public class AdminPanel extends javax.swing.JFrame {
         addCustomer.setContentPane(customerPanel);
         addCustomer.pack();
         addCustomer.setLocationRelativeTo(this); // optional, center dialog
+        addCustomer.setLocationRelativeTo(null);
         addCustomer.setVisible(true);
-        this.refreshCustomerTable();
+        this.refreshCustomerTable("");
     }//GEN-LAST:event_addCustomerActionPerformed
 
     private void deleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCategoryActionPerformed
@@ -821,7 +911,7 @@ public class AdminPanel extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Error: Could not delete category.");
         }
-        this.refreshCategoryTable();
+        this.refreshCategoryTable("");
     }//GEN-LAST:event_deleteCategoryActionPerformed
 
     private void addFoodSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFoodSubMenuActionPerformed
@@ -829,8 +919,9 @@ public class AdminPanel extends javax.swing.JFrame {
         JPanel foodItem = new FoodItem();
         addFoodItem.setContentPane(foodItem);
         addFoodItem.pack();
+        addFoodItem.setLocationRelativeTo(null);
         addFoodItem.setVisible(true);
-        this.refreshFoodTable();
+        this.refreshFoodTable("");
     }//GEN-LAST:event_addFoodSubMenuActionPerformed
 
     private void editFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editFoodActionPerformed
@@ -847,8 +938,9 @@ public class AdminPanel extends javax.swing.JFrame {
         editFood.setContentPane(foodPanel);
         editFood.pack();
         editFood.setLocationRelativeTo(this);
+        editFood.setLocationRelativeTo(null);
         editFood.setVisible(true);
-        this.refreshFoodTable();
+        this.refreshFoodTable("");
     }//GEN-LAST:event_editFoodActionPerformed
 
     private void deleteFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFoodActionPerformed
@@ -868,21 +960,18 @@ public class AdminPanel extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             foodItemController.deleteFoodItem(foodId);
-            this.refreshFoodTable();
+            this.refreshFoodTable("");
         }
     }//GEN-LAST:event_deleteFoodActionPerformed
-
-    private void foodSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foodSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_foodSearchActionPerformed
 
     private void addUserSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserSubMenuActionPerformed
         JDialog addUser = new JDialog(this, "Add User", true);
         JPanel userPanel = new userPanel();
         addUser.setContentPane(userPanel);
         addUser.pack();
+        addUser.setLocationRelativeTo(null);
         addUser.setVisible(true);
-        this.refreshUserTable();
+        this.refreshUserTable("");
     }//GEN-LAST:event_addUserSubMenuActionPerformed
 
     private void editUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserActionPerformed
@@ -897,8 +986,9 @@ public class AdminPanel extends javax.swing.JFrame {
         JPanel userPanel = new userPanel(userId);
         addUser.setContentPane(userPanel);
         addUser.pack();
+        addUser.setLocationRelativeTo(null);
         addUser.setVisible(true);
-        this.refreshUserTable();
+        this.refreshUserTable("");
     }//GEN-LAST:event_editUserActionPerformed
 
     private void deleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserActionPerformed
@@ -918,24 +1008,20 @@ public class AdminPanel extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             userController.deleteUser(userId);
-            this.refreshUserTable();
+            this.refreshUserTable("");
         }
     }//GEN-LAST:event_deleteUserActionPerformed
-
-    private void searchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchUserActionPerformed
 
     private void listUserSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listUserSubMenuActionPerformed
         CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
         cl.show(adminPanelWrapper, "userPanel");
-        this.refreshUserTable();
+        this.refreshUserTable("");
     }//GEN-LAST:event_listUserSubMenuActionPerformed
 
     private void listCustomerSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listCustomerSubMenuActionPerformed
         CardLayout cl = (CardLayout) adminPanelWrapper.getLayout();
         cl.show(adminPanelWrapper, "customerPanel");
-        this.refreshCustomerTable();
+        this.refreshCustomerTable("");
     }//GEN-LAST:event_listCustomerSubMenuActionPerformed
 
     private void editCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCustomerActionPerformed
@@ -952,9 +1038,10 @@ public class AdminPanel extends javax.swing.JFrame {
         editCustomer.setContentPane(customerPanel);
         editCustomer.pack();
         editCustomer.setLocationRelativeTo(this);
+        editCustomer.setLocationRelativeTo(null);
         editCustomer.setVisible(true);
 
-        this.refreshCustomerTable();
+        this.refreshCustomerTable("");
     }//GEN-LAST:event_editCustomerActionPerformed
 
     private void deleteCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCustomerActionPerformed
@@ -975,13 +1062,52 @@ public class AdminPanel extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             customerController.deleteCustomer(customerId);
-            this.refreshCustomerTable();
+            this.refreshCustomerTable("");
         }
     }//GEN-LAST:event_deleteCustomerActionPerformed
 
     private void customerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_customerSearchActionPerformed
+
+    private void backToSalePageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToSalePageActionPerformed
+        SalePage salePage = new SalePage();
+        salePage.setLocationRelativeTo(null);
+        salePage.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backToSalePageActionPerformed
+
+    private void logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutActionPerformed
+        Login login = new Login();
+        UserController.authenticatedUser = null;
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logOutActionPerformed
+
+    private void categoryPanelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_categoryPanelKeyPressed
+        
+    }//GEN-LAST:event_categoryPanelKeyPressed
+
+    private void foodSearchCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_foodSearchCaretUpdate
+        String searchText = foodSearch.getText();
+        refreshFoodTable(searchText);
+    }//GEN-LAST:event_foodSearchCaretUpdate
+
+    private void categorySearchCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_categorySearchCaretUpdate
+        String searchText = categorySearch.getText();
+        refreshCategoryTable(searchText);
+    }//GEN-LAST:event_categorySearchCaretUpdate
+
+    private void searchUserCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_searchUserCaretUpdate
+        String searchText = searchUser.getText();
+        refreshUserTable(searchText);
+    }//GEN-LAST:event_searchUserCaretUpdate
+
+    private void customerSearchCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_customerSearchCaretUpdate
+        String searchText = customerSearch.getText();
+        refreshCustomerTable(searchText);
+    }//GEN-LAST:event_customerSearchCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -1015,6 +1141,7 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JMenuItem addUserSubMenu;
     private javax.swing.JMenuBar adminPanelMenu;
     private javax.swing.JPanel adminPanelWrapper;
+    private javax.swing.JMenuItem backToSalePage;
     private javax.swing.JPanel categoryPanel;
     private javax.swing.JTextField categorySearch;
     private javax.swing.JTable categoryTable;
@@ -1043,6 +1170,8 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JMenuItem listCatgorySubMenu;
     private javax.swing.JMenuItem listCustomerSubMenu;
     private javax.swing.JMenuItem listUserSubMenu;
+    private javax.swing.JMenuItem logOut;
+    private javax.swing.JMenu navigate;
     private javax.swing.JTextField searchUser;
     private javax.swing.JMenu userMenu;
     private javax.swing.JPanel userPanel;

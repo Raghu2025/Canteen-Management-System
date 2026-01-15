@@ -203,15 +203,16 @@ public class SalePage extends javax.swing.JFrame {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     selectedCategoryFilter = c.getCategoryName();
                     setFoodItemTable(foodSearchInput.getText());
-                    // Visual feedback - highlight selected category
                     resetCategoryColors();
                     productPanel.setBackground(Color.DARK_GRAY);
+                    label.setForeground(Color.WHITE);
                 }
 
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
                     if (!productPanel.getBackground().equals(Color.DARK_GRAY)) {
                         productPanel.setBackground(Color.CYAN);
+                        label.setForeground(Color.BLACK);
                     }
                 }
 
@@ -219,6 +220,7 @@ public class SalePage extends javax.swing.JFrame {
                 public void mouseExited(java.awt.event.MouseEvent evt) {
                     if (!productPanel.getBackground().equals(Color.DARK_GRAY)) {
                         productPanel.setBackground(Color.BLUE);
+                        label.setForeground(Color.WHITE);
                     }
                 }
             });
@@ -315,7 +317,7 @@ public class SalePage extends javax.swing.JFrame {
         jSplitPane1.setResizeWeight(0.2);
         jSplitPane1.setPreferredSize(new java.awt.Dimension(100, 232));
 
-        navigationWrapper.setBackground(new java.awt.Color(204, 204, 255));
+        navigationWrapper.setBackground(new java.awt.Color(209, 220, 226));
         navigationWrapper.setPreferredSize(new java.awt.Dimension(200, 232));
 
         foodSearchInput.setText("Search");
@@ -372,11 +374,13 @@ public class SalePage extends javax.swing.JFrame {
         mainFoodAndOrderWrapper.setDividerLocation(300);
         mainFoodAndOrderWrapper.setDividerSize(0);
 
-        orderWrapper.setBackground(new java.awt.Color(153, 153, 255));
+        orderWrapper.setBackground(new java.awt.Color(209, 220, 226));
         orderWrapper.setPreferredSize(new java.awt.Dimension(452, 600));
         orderWrapper.setLayout(new java.awt.BorderLayout());
 
+        jLabel1.setBackground(new java.awt.Color(209, 220, 226));
         jLabel1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Orders");
         jLabel1.setToolTipText("");
@@ -389,6 +393,7 @@ public class SalePage extends javax.swing.JFrame {
         jScrollPane2.setMaximumSize(new java.awt.Dimension(32767, 300));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 400));
 
+        orderTable.setBackground(new java.awt.Color(209, 220, 226));
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -404,12 +409,16 @@ public class SalePage extends javax.swing.JFrame {
 
         orderWrapper.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setBackground(new java.awt.Color(209, 220, 226));
+        jPanel1.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 75));
 
         totalAmountLabel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        totalAmountLabel.setForeground(new java.awt.Color(209, 220, 226));
         totalAmountLabel.setText("0.0");
 
         jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Total Amount");
 
         payment.setBackground(new java.awt.Color(0, 204, 51));
@@ -457,7 +466,7 @@ public class SalePage extends javax.swing.JFrame {
         categoryScrollPanel.setMaximumSize(new java.awt.Dimension(32767, 250));
         categoryScrollPanel.setPreferredSize(new java.awt.Dimension(199, 250));
 
-        categoryPanelWrapper.setBackground(new java.awt.Color(255, 153, 153));
+        categoryPanelWrapper.setBackground(new java.awt.Color(209, 220, 226));
         categoryPanelWrapper.setPreferredSize(new java.awt.Dimension(197, 300));
         categoryPanelWrapper.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         categoryScrollPanel.setViewportView(categoryPanelWrapper);
@@ -466,6 +475,8 @@ public class SalePage extends javax.swing.JFrame {
 
         foodTableWrapper.setBackground(new java.awt.Color(255, 204, 204));
         foodTableWrapper.setPreferredSize(new java.awt.Dimension(635, 200));
+
+        jScrollPane1.setBackground(new java.awt.Color(209, 220, 226));
 
         foodTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

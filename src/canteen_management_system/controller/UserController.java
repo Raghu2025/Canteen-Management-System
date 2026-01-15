@@ -13,11 +13,26 @@ import java.util.LinkedList;
  * @author User
  */
 public class UserController {
+    public static UserModel authenticatedUser = null;
 
     public String addUser(String fullName, String email, String password, String phoneNumber, String role) {
         int newId = UserData.getAllUser().size() + 1;
         UserData.addUser(new UserModel(newId, fullName, email, password, phoneNumber, role));
         return "Successfully added";
+    }
+    
+    public UserModel login(String email, String password) {
+        if (email == null || password == null) {
+            return null; // invalid input
+        }
+
+        for (UserModel user : getAllUser()) {
+            if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+                UserController.authenticatedUser = user;
+                return user;
+            }
+        }
+        return null;
     }
 
     public LinkedList<UserModel> getAllUser() {
