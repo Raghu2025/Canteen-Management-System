@@ -4,7 +4,6 @@
  */
 package canteen_management_system.view;
 
-import canteen_management_system.CanteenManagementSystem;
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.CustomerController;
 import canteen_management_system.controller.FoodItemController;
@@ -41,7 +40,6 @@ public class AdminPanel extends javax.swing.JFrame {
      */
     public AdminPanel() {
         initComponents();
-        CanteenManagementSystem.addDummyData();
 
         DefaultTableModel customerSort = (DefaultTableModel) customerTable.getModel();
         TableRowSorter<DefaultTableModel> sorter1 = new TableRowSorter<>(customerSort);

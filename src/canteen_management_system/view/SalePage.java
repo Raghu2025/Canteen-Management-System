@@ -576,7 +576,7 @@ public class SalePage extends javax.swing.JFrame {
         if (size == 0) {
             JOptionPane.showMessageDialog(
                     this, // parent component (your JFrame or JPanel)
-                    "Cannot delete item. The order is empty!",
+                    "The order is empty!",
                     "Error",
                     JOptionPane.WARNING_MESSAGE
             );

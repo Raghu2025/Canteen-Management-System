@@ -452,6 +452,12 @@ public class PaymentView extends javax.swing.JPanel {
         // Clear form
         clearForm();
         Window window = SwingUtilities.getWindowAncestor(this);
+        JOptionPane.showMessageDialog(
+                this,
+                "Payment Succesfull!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE
+        );
         if (window != null) {
             window.dispose(); // closes the JDialog
         }
