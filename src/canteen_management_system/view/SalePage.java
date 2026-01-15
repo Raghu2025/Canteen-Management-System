@@ -7,6 +7,7 @@ package canteen_management_system.view;
 import canteen_management_system.controller.CategoryController;
 import canteen_management_system.controller.FoodItemController;
 import canteen_management_system.controller.OrderController;
+import canteen_management_system.controller.UserController;
 import canteen_management_system.model.CategoryModel;
 import canteen_management_system.model.FoodItemModel;
 import canteen_management_system.model.OrderItemModel;
@@ -20,7 +21,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -43,18 +43,12 @@ public class SalePage extends javax.swing.JFrame {
      * Creates new form SalePage
      */
     public SalePage() {
-        this.categoryController.addCategory("Drinks", "");
-        this.categoryController.addCategory("Snacks", "");
-        this.categoryController.addCategory("Fast Food", "");
-        this.categoryController.addCategory("Desserts", "");
-        this.categoryController.addCategory("Fruits", "");
-        // Add sample food items for testing
-        this.foodController.addFoodItem("Coca Cola", CategoryController.findByName("Drinks"), 2.5, 50, "Refreshing cold drink");
-        this.foodController.addFoodItem("Chips", CategoryController.findByName("Snacks"), 1.5, 100, "Crispy potato chips");
-        this.foodController.addFoodItem("Burger", CategoryController.findByName("Fast Food"), 5.0, 30, "Delicious beef burger");
         this.initComponents();
         this.orderController.addOrder();
-
+        DefaultTableModel foodModel = (DefaultTableModel) foodTable.getModel();
+        foodModel.setRowCount(0);
+        DefaultTableModel orderModel = (DefaultTableModel) orderTable.getModel();
+        orderModel.setRowCount(0);
         //Initialize category
         this.setCategoryList();
         // Initialize food table with all items
@@ -292,6 +286,7 @@ public class SalePage extends javax.swing.JFrame {
         foodSearchInput = new javax.swing.JTextField();
         filterClearButton = new javax.swing.JButton();
         removeOrder = new javax.swing.JButton();
+        logOut = new javax.swing.JButton();
         mainFoodAndOrderWrapper = new javax.swing.JSplitPane();
         orderWrapper = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -310,6 +305,8 @@ public class SalePage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
+
+        mainSalesWrapper.setBackground(new java.awt.Color(209, 220, 226));
 
         jSplitPane1.setDividerLocation(50);
         jSplitPane1.setDividerSize(0);
@@ -345,27 +342,41 @@ public class SalePage extends javax.swing.JFrame {
             }
         });
 
+        logOut.setBackground(new java.awt.Color(36, 105, 121));
+        logOut.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        logOut.setForeground(new java.awt.Color(255, 255, 255));
+        logOut.setText("Log out");
+        logOut.setPreferredSize(new java.awt.Dimension(75, 30));
+        logOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout navigationWrapperLayout = new javax.swing.GroupLayout(navigationWrapper);
         navigationWrapper.setLayout(navigationWrapperLayout);
         navigationWrapperLayout.setHorizontalGroup(
             navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navigationWrapperLayout.createSequentialGroup()
+            .addGroup(navigationWrapperLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(removeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 421, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, Short.MAX_VALUE)
                 .addComponent(foodSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(filterClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGap(83, 83, 83)
+                .addComponent(logOut, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         navigationWrapperLayout.setVerticalGroup(
             navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navigationWrapperLayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(navigationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(foodSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(filterClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(removeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -414,7 +425,7 @@ public class SalePage extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 75));
 
         totalAmountLabel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        totalAmountLabel.setForeground(new java.awt.Color(209, 220, 226));
+        totalAmountLabel.setForeground(new java.awt.Color(0, 0, 0));
         totalAmountLabel.setText("0.0");
 
         jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -461,8 +472,10 @@ public class SalePage extends javax.swing.JFrame {
 
         mainFoodAndOrderWrapper.setLeftComponent(orderWrapper);
 
+        foodWrapper.setBackground(new java.awt.Color(209, 220, 226));
         foodWrapper.setLayout(new java.awt.BorderLayout());
 
+        categoryScrollPanel.setBackground(new java.awt.Color(209, 220, 226));
         categoryScrollPanel.setMaximumSize(new java.awt.Dimension(32767, 250));
         categoryScrollPanel.setPreferredSize(new java.awt.Dimension(199, 250));
 
@@ -473,7 +486,7 @@ public class SalePage extends javax.swing.JFrame {
 
         foodWrapper.add(categoryScrollPanel, java.awt.BorderLayout.PAGE_START);
 
-        foodTableWrapper.setBackground(new java.awt.Color(255, 204, 204));
+        foodTableWrapper.setBackground(new java.awt.Color(209, 220, 226));
         foodTableWrapper.setPreferredSize(new java.awt.Dimension(635, 200));
 
         jScrollPane1.setBackground(new java.awt.Color(209, 220, 226));
@@ -585,6 +598,14 @@ public class SalePage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_paymentActionPerformed
 
+    private void logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutActionPerformed
+        Login login = new Login();
+        UserController.authenticatedUser = null;
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logOutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -624,6 +645,7 @@ public class SalePage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JButton logOut;
     private javax.swing.JSplitPane mainFoodAndOrderWrapper;
     private javax.swing.JPanel mainSalesWrapper;
     private javax.swing.JPanel navigationWrapper;
