@@ -264,13 +264,16 @@ public class userPanel extends javax.swing.JPanel {
         else if (password.length() < 6) {
             message = "Password must be at least 6 characters!";
             hasError = true;
+        } else if (userController.isEmailExists(email, isUpdate ? toBeUpdate.getId() : null)) {
+            message = "User with this email already exists!";
+            hasError = true;
         }
 
         if (hasError) {
             JOptionPane.showMessageDialog(this, message, "Input Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         String successMessage = "User added successfully!";
         if (this.isUpdate) {
             toBeUpdate.setFullName(fullName);
@@ -284,10 +287,10 @@ public class userPanel extends javax.swing.JPanel {
             userController.addUser(fullName, email, password, phone, role);
         }
 
-        JOptionPane.showMessageDialog(this, 
-                successMessage, "Success", 
+        JOptionPane.showMessageDialog(this,
+                successMessage, "Success",
                 JOptionPane.INFORMATION_MESSAGE);
-        
+
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window != null) {
             window.dispose();

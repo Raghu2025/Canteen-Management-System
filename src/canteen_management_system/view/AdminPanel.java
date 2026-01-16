@@ -69,48 +69,29 @@ public class AdminPanel extends javax.swing.JFrame {
     private void refreshCategoryTable(String searchText) {
         DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
         model.setRowCount(0);
-
-        // Copy list to avoid mutating controller data
        List<CategoryModel> categories = new ArrayList<>(categoryController.getAllCategoryList());
-
-
-        // Sort by category name (required for binary search)
-        categories.sort(Comparator.comparing(
-                CategoryModel::getCategoryName,
-                String.CASE_INSENSITIVE_ORDER
-        ));
-
+        categories.sort(Comparator.comparing( CategoryModel::getCategoryName,String.CASE_INSENSITIVE_ORDER ));
         // Show all if search is empty
         if (searchText == null || searchText.isBlank()) {
             fillTable(model, categories);
             return;
         }
-
         searchText = searchText.trim();
-
         int index = binarySearchByName(categories, searchText);
-
-        if (index == -1) {
-            // No exact match → show nothing (or show all if you prefer)
-            return;
-        }
-
+        if (index == -1)return;
         // Collect all matching entries (partial match)
         int left = index;
         int right = index;
-
         while (left - 1 >= 0
                 && categories.get(left - 1).getCategoryName()
                         .toLowerCase().contains(searchText.toLowerCase())) {
             left--;
         }
-
         while (right + 1 < categories.size()
                 && categories.get(right + 1).getCategoryName()
                         .toLowerCase().contains(searchText.toLowerCase())) {
             right++;
         }
-
         int serial = 1;
         for (int i = left; i <= right; i++) {
             CategoryModel c = categories.get(i);
@@ -269,7 +250,6 @@ public class AdminPanel extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         adminPanelWrapper = new javax.swing.JPanel();
         welcomepage = new javax.swing.JPanel();
@@ -333,10 +313,9 @@ public class AdminPanel extends javax.swing.JFrame {
         logOut = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         adminPanelWrapper.setBackground(new java.awt.Color(201, 214, 222));
-        adminPanelWrapper.setPreferredSize(new java.awt.Dimension(640, 350));
+        adminPanelWrapper.setPreferredSize(new java.awt.Dimension(1280, 720));
         adminPanelWrapper.setLayout(new java.awt.CardLayout());
 
         welcomepage.setBackground(new java.awt.Color(201, 214, 222));
@@ -563,6 +542,7 @@ public class AdminPanel extends javax.swing.JFrame {
 
         adminPanelWrapper.add(welcomepage, "welComePage");
 
+        categoryPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
         categoryPanel.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 categoryPanelKeyPressed(evt);
@@ -629,33 +609,35 @@ public class AdminPanel extends javax.swing.JFrame {
             .addGroup(categoryPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(categoryPanelLayout.createSequentialGroup()
                         .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 778, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 786, Short.MAX_VALUE)
                         .addComponent(editCatgory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteCategory)
-                        .addGap(14, 14, 14))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(deleteCategory)))
+                .addContainerGap())
         );
         categoryPanelLayout.setVerticalGroup(
             categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(categoryPanelLayout.createSequentialGroup()
                 .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(categoryPanelLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(deleteCategory)
-                            .addComponent(editCatgory)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, categoryPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+                    .addGroup(categoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(categoryPanelLayout.createSequentialGroup()
+                            .addGap(19, 19, 19)
+                            .addComponent(deleteCategory))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, categoryPanelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(categorySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(editCatgory, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         adminPanelWrapper.add(categoryPanel, "categoryPanel");
+
+        foodItemPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         editFood.setText("Edit");
         editFood.addActionListener(new java.awt.event.ActionListener() {

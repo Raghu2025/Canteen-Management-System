@@ -188,12 +188,22 @@ public class AddCategoryForm extends javax.swing.JPanel {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
+        String message = null;
         if (this.isUpdate) {
             this.toBeUpdated.setCategoryName(catName);
             this.toBeUpdated.setDescription(description);
             this.categoryController.updateCategory(this.toBeUpdated);
         } else {
-            this.categoryController.addCategory(catName, description);
+            message = this.categoryController.addCategory(catName, description);
+            
+        }
+        if (message != null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    message,
+                    "Input Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
         }
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window != null) {

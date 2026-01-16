@@ -56,6 +56,19 @@ public class UserController {
         return null;
     }
 
+    public boolean isEmailExists(String email, Integer userId) {
+        for (UserModel user : getAllUser()) {
+            // Skip the current user during update
+            if (userId != null && user.getId() == userId) {
+                continue;
+            }
+            if (user.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static UserModel findByName(String name) {
         for (UserModel c : UserData.getAllUser()) {
             if (c.getFullName().equalsIgnoreCase(name)) {
@@ -64,13 +77,4 @@ public class UserController {
         }
         return null;
     }
-
-//    public String[][] getTableValue(){
-//        String[] header = {"category Name", "Description"};
-//        String[][] row = new String;
-//        
-//       
-//        
-//       return {header, row};
-//    }
 }
