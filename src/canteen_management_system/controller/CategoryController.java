@@ -20,11 +20,11 @@ public class CategoryController {
     
     public String addCategory(String name, String description) {
         LinkedList<CategoryModel> allCategory = CategoryData.getAllCategory();
-//        for (CategoryModel c : allCategory) {
-//            if (c.getCategoryName().equalsIgnoreCase(name.trim())) {
-//                return "Category already exists!";
-//            }
-//        }
+        for (CategoryModel c : allCategory) {
+            if (c.getCategoryName().equalsIgnoreCase(name.trim())) {
+                return "Category already exists!";
+            }
+        }
         int newId = allCategory.size() + 1;
         CategoryData.addCategory(new CategoryModel(newId, name, description));
         return "Successfully added";
@@ -64,17 +64,5 @@ public class CategoryController {
             }
         }
         return null;
-    }
-
-//    public String[][] getTableValue(){
-//        String[] header = {"category Name", "Description"};
-//        String[][] row = new String;
-//        
-//       
-//        
-//       return {header, row};
-//    }
-    
-    
-    
+    } 
 }
